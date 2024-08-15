@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../ProjectManagement/pm-api-dotnet"
+		}
+	],
+	"settings": {}
+}
