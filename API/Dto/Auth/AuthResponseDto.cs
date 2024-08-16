@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace API.Dto
+namespace API.Dto.Auth
 {
     public class AuthResponseDto
     {

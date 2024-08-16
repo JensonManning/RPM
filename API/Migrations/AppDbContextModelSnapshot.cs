@@ -91,6 +91,150 @@ namespace API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("API.Models.Project", b =>
+                {
+                    b.Property<int>("ProjectID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectID"));
+
+                    b.Property<string>("ProjectDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEndDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectShortcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectStartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectID");
+
+                    b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectPhase", b =>
+                {
+                    b.Property<int>("ProjectPhaseID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectPhaseID"));
+
+                    b.Property<int?>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectPhaseDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectPhaseEndDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectPhaseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectPhaseOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectPhaseStartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectPhaseStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectPhaseID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.ToTable("ProjectPhase");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectTasks", b =>
+                {
+                    b.Property<int>("ProjectTasksID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectTasksID"));
+
+                    b.Property<int?>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjectPhaseID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectTasksDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectTasksEndDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectTasksName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectTasksStartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectTasksStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectTasksID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.HasIndex("ProjectPhaseID");
+
+                    b.ToTable("ProjectTasks");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectTeam", b =>
+                {
+                    b.Property<int>("ProjectTeamID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectTeamID"));
+
+                    b.Property<string>("AppUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectTeamID");
+
+                    b.HasIndex("AppUserID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.ToTable("ProjectTeam");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -224,6 +368,45 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("API.Models.ProjectPhase", b =>
+                {
+                    b.HasOne("API.Models.Project", "Project")
+                        .WithMany("ProjectPhase")
+                        .HasForeignKey("ProjectID");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectTasks", b =>
+                {
+                    b.HasOne("API.Models.Project", "Project")
+                        .WithMany("ProjectTasks")
+                        .HasForeignKey("ProjectID");
+
+                    b.HasOne("API.Models.ProjectPhase", "ProjectPhase")
+                        .WithMany()
+                        .HasForeignKey("ProjectPhaseID");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectPhase");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectTeam", b =>
+                {
+                    b.HasOne("API.Models.AppUser", "AppUser")
+                        .WithMany("ProjectTeam")
+                        .HasForeignKey("AppUserID");
+
+                    b.HasOne("API.Models.Project", "Project")
+                        .WithMany("ProjectTeam")
+                        .HasForeignKey("ProjectID");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -273,6 +456,20 @@ namespace API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Models.AppUser", b =>
+                {
+                    b.Navigation("ProjectTeam");
+                });
+
+            modelBuilder.Entity("API.Models.Project", b =>
+                {
+                    b.Navigation("ProjectPhase");
+
+                    b.Navigation("ProjectTasks");
+
+                    b.Navigation("ProjectTeam");
                 });
 #pragma warning restore 612, 618
         }

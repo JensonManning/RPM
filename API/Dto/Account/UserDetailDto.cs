@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Dto
+namespace API.Dto.Auth
 {
     public class UserDetailDto
     {

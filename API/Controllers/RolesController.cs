@@ -19,7 +19,8 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
 
         // constructor
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager) {
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager) 
+        {
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -29,22 +30,26 @@ namespace API.Controllers
         public async Task<IActionResult> CreateRole([FromBody] RoleCreateDto roleCreateDto)
         {
             // check if the model is valid
-            if (string.IsNullOrEmpty(roleCreateDto.RoleName)) {
+            if (string.IsNullOrEmpty(roleCreateDto.RoleName)) 
+            {
                 return BadRequest("Role name is required");
             }
 
             // check if the role already exists
             var roleExist = await _roleManager.RoleExistsAsync(roleCreateDto.RoleName);
-            if (roleExist) {
+            if (roleExist) 
+            {
                 return BadRequest("Role already exists");
             }
 
             // create the role
             var roleResult = await _roleManager.CreateAsync(new IdentityRole(
                 roleCreateDto.RoleName));
-            if (roleResult.Succeeded) {
+            if (roleResult.Succeeded) 
+            {
                 return Ok(new { message = roleCreateDto.RoleName + " created successfully"});
-            } else {
+            } else 
+            {
                 return BadRequest("Failed to create " + roleCreateDto.RoleName);
             }
 
@@ -58,7 +63,8 @@ namespace API.Controllers
 
             // list of roles with total users in each role 
 
-            var roles = await _roleManager.Roles.Select(r=>new RoleResponseDto{
+            var roles = await _roleManager.Roles.Select(r=>new RoleResponseDto
+            {
                 Id = r.Id,
                 Name = r.Name,
                 TotalUsers = _userManager.GetUsersInRoleAsync(r.Name!).Result.Count,
@@ -69,52 +75,60 @@ namespace API.Controllers
 
         // api/roles/{id} | Delete role
         [HttpDelete("{id}")]
-
-        public async Task<IActionResult> DeleteRole(string id) {
+        public async Task<IActionResult> DeleteRole(string id) 
+        {
             // check if the role exists
             var role = await _roleManager.FindByIdAsync(id);
             // check if the role is null
-            if (role is null) {
+            if (role is null) 
+            {
                 return NotFound("Role not found or is blank");
             }
             // delete the role
             var result = await _roleManager.DeleteAsync(role);
             // return the result if succeeded
-            if (result.Succeeded) {
+            if (result.Succeeded) 
+            {
                 return Ok(new { message = role +" deleted successfully" });
             }
             // return the result if failed 
-            else {
+            else 
+            {
                 return BadRequest("Failed to delete " + role);
             }
         }
 
         [HttpPost("assign")]
 
-        public async Task<IActionResult> AddUserToRole([FromBody] RoleAssignDto roleAssignDto) {
+        public async Task<IActionResult> AddUserToRole([FromBody] RoleAssignDto roleAssignDto) 
+        {
 
             // check if the user exists
             var user = await _userManager.FindByIdAsync(roleAssignDto.UserId);
             // check if the user is null
-            if (user is null) {
+            if (user is null) 
+            {
                 return NotFound(user + " not found");
             }
 
             // check if the role exists
             var role = await _roleManager.FindByIdAsync(roleAssignDto.RoleId);
             // check if the role is null
-            if (role is null) {
+            if (role is null) 
+            {
                 return NotFound(role + "not found");
             }
 
             // add the user to the role
             var result = await _userManager.AddToRoleAsync(user, role.Name!);
             // return the result if succeeded
-            if (result.Succeeded) {
+            if (result.Succeeded) 
+            {
                 return Ok(new { message = "User " + user.UserName + " assigned to " + role.Name + " successfully" });
             }
             // return the result if failed 
-            else {
+            else 
+            {
                 return BadRequest("Failed to assign " + user.UserName + " to role");
             }
         }

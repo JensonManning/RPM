@@ -13,7 +13,11 @@ namespace API.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
-            
-        }    
+
+        }
+        public DbSet<Project> Project { get; set; }    
+        public DbSet<ProjectTeam> ProjectTeam { get; set; }
+        public DbSet<ProjectPhase> ProjectPhase { get; set; }
+        public DbSet<ProjectTasks> ProjectTasks { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using API.Dto;
+using API.Dto.Auth;
+using API.Dto.Account;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -49,7 +50,8 @@ namespace API.Controllers
             }
 
             // create a new user
-            var user = new AppUser{
+            var user = new AppUser
+            {
                 Email = registerDto.Email,
                 FullName = registerDto.FullName,
                 UserName = registerDto.Email
@@ -65,12 +67,14 @@ namespace API.Controllers
             }
             
             // add the user to the role, we will need to input this manually or have it error out!
-            if(registerDto.Roles is null){
-                    await _userManager.AddToRoleAsync(user,"UnAssigned");
-                    // return message about user being unassigned
-                    return Ok("User role was UnAssigned, please assign to a role manually after registration is completed");
+            if(registerDto.Roles is null)
+            {
+                await _userManager.AddToRoleAsync(user,"UnAssigned");
+                // return message about user being unassigned
+                return Ok("User role was UnAssigned, please assign to a role manually after registration is completed");
             }
-            else{
+            else
+            {
                 foreach(var role in registerDto.Roles)
                 {
                     await _userManager.AddToRoleAsync(user,role);
@@ -78,7 +82,8 @@ namespace API.Controllers
             }
 
             // return a success message
-            return Ok(new AuthResponseDto{
+            return Ok(new AuthResponseDto
+            {
                 IsSuccess = true,
                 Message = "Account Created Sucessfully! Name : " 
                             + user.FullName + " | Email : " 
@@ -90,10 +95,12 @@ namespace API.Controllers
         // POST api/account/login
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto loginDto){
+        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto loginDto)
+        {
         
             // check if the model is valid
-            if(!ModelState.IsValid) {
+            if(!ModelState.IsValid) 
+            {
             
                 return BadRequest(ModelState + "MODEL STATE IS NOT VALID");
             }
@@ -102,7 +109,8 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
             // if user is null, return Unauthorized
-            if(user is null) {
+            if(user is null) 
+            {
                 return Unauthorized(new AuthResponseDto{
                     IsSuccess = false,
                     Message = user + " not found with this Email/Username" 
@@ -112,7 +120,8 @@ namespace API.Controllers
             // check if the password is correct
             var result = await _userManager.CheckPasswordAsync(user,loginDto.Password);
 
-            if(!result) {
+            if(!result) 
+            {
                 return Unauthorized(new AuthResponseDto{
                     IsSuccess = false,
                     Message = "Incorrect Email or Password" 
@@ -138,7 +147,8 @@ namespace API.Controllers
             var roles = _userManager.GetRolesAsync(user).Result;
 
             // New claims
-            List<Claim> claims = [
+            List<Claim> claims = 
+            [
                 new (JwtRegisteredClaimNames.Email,user.Email??""),
                 new (JwtRegisteredClaimNames.Name,user.FullName??""),
                 new (JwtRegisteredClaimNames.NameId,user.Id??""),
@@ -151,7 +161,8 @@ namespace API.Controllers
             ];
 
             // Add roles
-            foreach(var role in roles) {
+            foreach(var role in roles) 
+            {
                 claims.Add(new Claim(ClaimTypes.Role,role));
             }
 
@@ -171,20 +182,23 @@ namespace API.Controllers
 
         // GET api/account/detail
         [HttpGet("detail")] 
-        public async Task<ActionResult<UserDetailDto>> GetUserDetail() {
+        public async Task<ActionResult<UserDetailDto>> GetUserDetail() 
+        {
             // get current user Id
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // check if user exists
             var user = await _userManager.FindByIdAsync(currentUserId!);
             // if user is null, return NotFound
-            if(user is null) {
+            if(user is null) 
+            {
                 return NotFound(new AuthResponseDto{
                     IsSuccess = false,
                     Message = user + " not found"
                 });
             }
             // return user details
-            return Ok(new UserDetailDto {
+            return Ok(new UserDetailDto 
+            {
                 Id = user.Id,
                 Email = user.Email,
                 FullName = user.FullName,
@@ -198,9 +212,11 @@ namespace API.Controllers
 
         // GET api/account
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDetailDto>>> GetUsers() {
+        public async Task<ActionResult<IEnumerable<UserDetailDto>>> GetUsers() 
+        {
             // get all users
-            var users = await _userManager.Users.Select(u=> new UserDetailDto {
+            var users = await _userManager.Users.Select(u=> new UserDetailDto 
+            {
                 Id = u.Id,
                 Email = u.Email,
                 FullName = u.FullName,
@@ -212,19 +228,24 @@ namespace API.Controllers
         
         // DELETE api/account
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id) {
+        public async Task<IActionResult> DeleteUser(string id) 
+        {
             var user = await _userManager.FindByIdAsync(id);
-            if(user is null) {
+            if(user is null) 
+            {
                 return NotFound();
             }
             var result = await _userManager.DeleteAsync(user);
-            if(result.Succeeded) {
-                return Ok(new AuthResponseDto{
+            if(result.Succeeded) 
+            {
+                return Ok(new AuthResponseDto
+                {
                     IsSuccess = true,
                     Message = user + " deleted successfully"
                 });
             }
-            return BadRequest(new AuthResponseDto{
+            return BadRequest(new AuthResponseDto
+            {
                 IsSuccess = false,
                 Message = "Failed to delete " + user
             });
@@ -232,10 +253,12 @@ namespace API.Controllers
 
         // PUT api/account
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDetailDto userDetailDto) {
+        public async Task<IActionResult> UpdateUser([FromBody] UserDetailDto userDetailDto) 
+        {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(currentUserId!);
-            if(user is null) {
+            if(user is null) 
+            {
                 return NotFound();
             }
             user.Email = userDetailDto.Email;
@@ -245,13 +268,16 @@ namespace API.Controllers
             user.TwoFactorEnabled = userDetailDto.TwoFactorEnabled;
             user.AccessFailedCount = userDetailDto.AccessFailedCount;
             var result = await _userManager.UpdateAsync(user);
-            if(result.Succeeded) {
-                return Ok(new AuthResponseDto {
+            if(result.Succeeded) 
+            {
+                return Ok(new AuthResponseDto 
+                {
                     IsSuccess = true,
                     Message = user + " updated successfully"
                 });
             }
-            return BadRequest(new AuthResponseDto{
+            return BadRequest(new AuthResponseDto
+            {
                 IsSuccess = false,
                 Message = "Failed to update " + user
             });

@@ -1,6 +1,8 @@
 using System.Text;
 using API.Data;
+using API.Interfaces;
 using API.Models;
+using API.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,15 @@ builder.Services.AddAuthentication(opt=>{
     };
 });
 #pragma warning restore CS8604 // Possible null reference argument.
+
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IProjectPhaseRepository, ProjectPhaseRepository>();
+builder.Services.AddScoped<IProjectTasksRepository, ProjectTasksRepository>();
+builder.Services.AddScoped<IProjectTeamRepository, ProjectTeamRepository>();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

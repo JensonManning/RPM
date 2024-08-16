@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Dto
+namespace API.Dto.Auth
 {
     // RegisterDto | Email | FullName | Password | ConfirmPassword | Roles  
     //This is where we add the items that we will want when a register POST is made

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Dto
+namespace API.Dto.Account
 {
     public class LoginDto
     {
