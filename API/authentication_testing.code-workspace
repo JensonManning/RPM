@@ -4,7 +4,7 @@
 			"path": ".."
 		},
 		{
-			"path": "../../ProjectManagement/pm-api-dotnet"
+			"path": "../../ProjectManagement"
 		}
 	],
 	"settings": {}

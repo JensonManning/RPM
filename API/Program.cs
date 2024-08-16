@@ -34,8 +34,6 @@ builder.Services.AddAuthentication(opt=>{
         ValidAudience  = JWTSetting["ValidAudience"],
         ValidIssuer=JWTSetting["ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSetting.GetSection("securityKey").Value!))
-
-
     };
 });
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -44,31 +42,33 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 // Add Swagger Authentication
-builder.Services.AddSwaggerGen( c=> {
+builder.Services.AddSwaggerGen(c=>{
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
-        Name = "RPM API",
-        Description = "RPM API with Authentication",
+        Description = @"JWT Authorization Example : 'Bearer eyeleieieekeieieie",
+        Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement(){
         {
-            new OpenApiSecurityScheme
-            {
+            new OpenApiSecurityScheme{
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 },
-                Scheme = "oauth2",
-                Name = "Bearer",
+                Scheme = "outh2",
+                Name="Bearer",
                 In = ParameterLocation.Header,
             },
-            new List<string>{ }
+            new List<string>()
         }
     });
+
 });
+
 
 var app = builder.Build();
 

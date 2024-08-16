@@ -11,10 +11,9 @@ namespace API.Data
     // Referencing the IdentityDbContext with AppUser Model
     public class AppDbContext:IdentityDbContext<AppUser>
     {
-        // Constructor for AppDbContext
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
             
-        }
+        }    
     }
 }

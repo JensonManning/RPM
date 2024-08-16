@@ -136,3 +136,4 @@ D:\Coding Data\authentication_testing\API\obj\Debug\net8.0\refint\API.dll
 D:\Coding Data\authentication_testing\API\obj\Debug\net8.0\API.pdb
 D:\Coding Data\authentication_testing\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\Coding Data\authentication_testing\API\obj\Debug\net8.0\ref\API.dll
+D:\Coding Data\authentication_testing\API\obj\Debug\net8.0\API.sourcelink.json
