@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace API.Controllers
 {
 
-    [Authorize(Roles = "Admin, Project Manager")]
+    //[Authorize(Roles = "Admin, Project Manager")]
     [ApiController]
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
@@ -26,26 +26,26 @@ namespace API.Controllers
 
         // POST api/roles | Create the role
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto createRoleDto)
+        public async Task<IActionResult> CreateRole([FromBody] RoleCreateDto roleCreateDto)
         {
             // check if the model is valid
-            if (string.IsNullOrEmpty(createRoleDto.RoleName)) {
+            if (string.IsNullOrEmpty(roleCreateDto.RoleName)) {
                 return BadRequest("Role name is required");
             }
 
             // check if the role already exists
-            var roleExist = await _roleManager.RoleExistsAsync(createRoleDto.RoleName);
+            var roleExist = await _roleManager.RoleExistsAsync(roleCreateDto.RoleName);
             if (roleExist) {
                 return BadRequest("Role already exists");
             }
 
             // create the role
             var roleResult = await _roleManager.CreateAsync(new IdentityRole(
-                createRoleDto.RoleName));
+                roleCreateDto.RoleName));
             if (roleResult.Succeeded) {
-                return Ok(new { message = "Role created successfully"});
+                return Ok(new { message = roleCreateDto.RoleName + " created successfully"});
             } else {
-                return BadRequest("Failed to create role");
+                return BadRequest("Failed to create " + roleCreateDto.RoleName);
             }
 
         }
@@ -81,11 +81,41 @@ namespace API.Controllers
             var result = await _roleManager.DeleteAsync(role);
             // return the result if succeeded
             if (result.Succeeded) {
-                return Ok(new { message = "Role deleted successfully" });
+                return Ok(new { message = role +" deleted successfully" });
             }
             // return the result if failed 
             else {
-                return BadRequest("Failed to delete role");
+                return BadRequest("Failed to delete " + role);
+            }
+        }
+
+        [HttpPost("assign")]
+
+        public async Task<IActionResult> AddUserToRole([FromBody] RoleAssignDto roleAssignDto) {
+
+            // check if the user exists
+            var user = await _userManager.FindByIdAsync(roleAssignDto.UserId);
+            // check if the user is null
+            if (user is null) {
+                return NotFound(user + " not found");
+            }
+
+            // check if the role exists
+            var role = await _roleManager.FindByIdAsync(roleAssignDto.RoleId);
+            // check if the role is null
+            if (role is null) {
+                return NotFound(role + "not found");
+            }
+
+            // add the user to the role
+            var result = await _userManager.AddToRoleAsync(user, role.Name!);
+            // return the result if succeeded
+            if (result.Succeeded) {
+                return Ok(new { message = "User " + user.UserName + " assigned to " + role.Name + " successfully" });
+            }
+            // return the result if failed 
+            else {
+                return BadRequest("Failed to assign " + user.UserName + " to role");
             }
         }
     }

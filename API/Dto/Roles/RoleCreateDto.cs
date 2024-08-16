@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.Dto.Roles
 {
-    public class CreateRoleDto
+    public class RoleCreateDto
     {
         [Required(ErrorMessage = "Role is required")]
         public string RoleName { get; set; } = null!;

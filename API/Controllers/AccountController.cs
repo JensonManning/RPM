@@ -105,7 +105,7 @@ namespace API.Controllers
             if(user is null) {
                 return Unauthorized(new AuthResponseDto{
                     IsSuccess = false,
-                    Message = "User not found with this Email/Username" 
+                    Message = user + " not found with this Email/Username" 
                 });
             }
 
@@ -124,7 +124,7 @@ namespace API.Controllers
             return Ok(new AuthResponseDto{
                 Token = token,
                 IsSuccess = true,
-                Message = "Login Success."
+                Message = user + " Login Success."
             });
         }
         
@@ -180,7 +180,7 @@ namespace API.Controllers
             if(user is null) {
                 return NotFound(new AuthResponseDto{
                     IsSuccess = false,
-                    Message = "User not found"
+                    Message = user + " not found"
                 });
             }
             // return user details
@@ -212,9 +212,8 @@ namespace API.Controllers
         
         // DELETE api/account
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser() {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(currentUserId!);
+        public async Task<IActionResult> DeleteUser(string id) {
+            var user = await _userManager.FindByIdAsync(id);
             if(user is null) {
                 return NotFound();
             }
@@ -222,12 +221,12 @@ namespace API.Controllers
             if(result.Succeeded) {
                 return Ok(new AuthResponseDto{
                     IsSuccess = true,
-                    Message = "User deleted successfully"
+                    Message = user + " deleted successfully"
                 });
             }
             return BadRequest(new AuthResponseDto{
                 IsSuccess = false,
-                Message = "Failed to delete user"
+                Message = "Failed to delete " + user
             });
         }
 
@@ -247,9 +246,15 @@ namespace API.Controllers
             user.AccessFailedCount = userDetailDto.AccessFailedCount;
             var result = await _userManager.UpdateAsync(user);
             if(result.Succeeded) {
-                return Ok();
+                return Ok(new AuthResponseDto {
+                    IsSuccess = true,
+                    Message = user + " updated successfully"
+                });
             }
-            return BadRequest();
+            return BadRequest(new AuthResponseDto{
+                IsSuccess = false,
+                Message = "Failed to update " + user
+            });
         }
     }
 }
