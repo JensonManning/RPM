@@ -43,7 +43,6 @@ builder.Services.AddAuthentication(opt=>{
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectPhaseRepository, ProjectPhaseRepository>();
 builder.Services.AddScoped<IProjectTasksRepository, ProjectTasksRepository>();
-builder.Services.AddScoped<IProjectTeamRepository, ProjectTeamRepository>();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

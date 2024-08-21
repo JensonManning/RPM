@@ -24,7 +24,7 @@ namespace API.Repository
             return await _context.Project
                 .Include(x => x.ProjectPhase)
                 .Include(t => t.ProjectTasks)
-                .Include(x => x.ProjectTeam)
+                .Include(x => x.AppUsers)
                 .ToListAsync();
         }
 
@@ -33,7 +33,7 @@ namespace API.Repository
             return await _context.Project
                 .Include(x => x.ProjectPhase)
                 .Include(t => t.ProjectTasks)
-                .Include(x => x.ProjectTeam)
+                .Include(x => x.AppUsers)
                 .FirstOrDefaultAsync(x => x.ProjectID == ProjectID);
         }
 
@@ -81,11 +81,6 @@ namespace API.Repository
             existingProject.ProjectStartDate = projectDto.ProjectStartDate;
             existingProject.ProjectEndDate = projectDto.ProjectEndDate;
             existingProject.ProjectStatus = projectDto.ProjectStatus;
-            existingProject.ProjectTeam = projectDto.ProjectTeam.Select(dto => new ProjectTeam
-                                                                    {
-                                                                        ProjectID = dto.ProjectID,
-                                                                        AppUserID = dto.AppUserID
-                                                                    }).ToList();
             await _context.SaveChangesAsync();
             return existingProject;
         }

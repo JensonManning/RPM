@@ -1,6 +1,6 @@
 import {
   MatCommonModule
-} from "./chunk-UEPNQEYT.js";
+} from "./chunk-BOCNWNSX.js";
 import {
   coerceBooleanProperty
 } from "./chunk-6FCJBXOR.js";
@@ -19,8 +19,8 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule
 } from "./chunk-UY4LERZY.js";
-import "./chunk-FTB5UYSU.js";
 import "./chunk-PJLO3BQF.js";
+import "./chunk-FTB5UYSU.js";
 import "./chunk-WDHRTQJ7.js";
 import "./chunk-WDMUDEB6.js";
 

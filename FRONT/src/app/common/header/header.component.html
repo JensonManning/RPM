@@ -8,26 +8,26 @@
     [class.card-borderd-theme]="themeService.isCardBorder()"
     [class.rtl-enabled]="themeService.isRTLEnabled()"
 >
-    <div class="d-md-flex align-items-center justify-content-between">
-        <div class="header-left-side d-flex align-items-center">
+    <div class="rpm-md-flex align-items-center justify-content-between">
+        <div class="header-left-side rpm-flex align-items-center">
             <div
-                class="burger-menu cursor-pointer transition d-xl-none"
+                class="burger-menu cursor-pointer transition rpm-xl-none"
                 [ngClass]="{'active': isSidebarToggled}"
                 (click)="toggle()"
             >
-                <span class="top-bar d-block bg-black transition"></span>
-                <span class="middle-bar d-block bg-black transition"></span>
-                <span class="bottom-bar d-block bg-black transition"></span>
+                <span class="top-bar rpm-block bg-black transition"></span>
+                <span class="middle-bar rpm-block bg-black transition"></span>
+                <span class="bottom-bar rpm-block bg-black transition"></span>
             </div>
             <form class="search-box position-relative">
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here...">
+                <input type="text" class="input-search rpm-block w-100 border-none outline-0" placeholder="Search here...">
             </form>
         </div>
         
-        <ul class="header-right-side d-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
+        <ul class="header-right-side rpm-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
             <li>
                 <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-menu-btn">
                     <i class="material-symbols-outlined">
@@ -38,7 +38,7 @@
                     <div
                         [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
                     >
-                        <span class="title fw-medium d-block">Choose Language</span>
+                        <span class="title fw-medium rpm-block">Choose Language</span>
                         <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
                             <li>
                                 <button mat-button>
@@ -97,7 +97,7 @@
                     <i class="material-symbols-outlined">
                         mail
                     </i>
-                    <span class="daxa-badge">
+                    <span class="rpm-badge">
                         5
                     </span>
                 </button>
@@ -105,50 +105,50 @@
                     <div
                         [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
                     >
-                        <div class="title d-flex align-items-center justify-content-between">
+                        <div class="title rpm-flex align-items-center justify-content-between">
                             <span class="fw-medium">
                                 Messages 
                                 <span class="text-body fw-normal">(05)</span>
                             </span>
-                            <a routerLink="/chat" class="link-btn text-daxa">
+                            <a routerLink="/chat" class="link-btn text-rpm">
                                 Mark all as read
                             </a>
                         </div>
                         <ul class="menu-body pl-0 mt-0 list-unstyled">
                             <li class="position-relative">
                                 <img src="assets/images/users/user1.jpg" width="44" height="44" class="rounded-circle position-absolute" alt="user">
-                                <span class="sub-title d-block fw-medium">
+                                <span class="sub-title rpm-block fw-medium">
                                     Jacob Liwiski <span class="text-body fw-normal">35 mins ago</span>
                                 </span>
-                                <span class="message d-block text-body">
+                                <span class="message rpm-block text-body">
                                     Hey Victor! Could you please...
                                 </span>
-                                <a routerLink="/chat" class="d-block link-btn position-absolute"></a>
-                                <span class="unread d-inline-block rounded-circle bg-daxa position-absolute"></span>
+                                <a routerLink="/chat" class="rpm-block link-btn position-absolute"></a>
+                                <span class="unread rpm-inline-block rounded-circle bg-rpm position-absolute"></span>
                             </li>
                             <li class="position-relative">
                                 <img src="assets/images/users/user2.jpg" width="44" height="44" class="rounded-circle position-absolute" alt="user">
-                                <span class="sub-title d-block fw-medium">
+                                <span class="sub-title rpm-block fw-medium">
                                     Angela Carter <span class="text-body fw-normal">1 day ago</span>
                                 </span>
-                                <span class="message d-block text-body">
+                                <span class="message rpm-block text-body">
                                     How are you Angela? Would you please...
                                 </span>
-                                <a routerLink="/chat" class="d-block link-btn position-absolute"></a>
+                                <a routerLink="/chat" class="rpm-block link-btn position-absolute"></a>
                             </li>
                             <li class="position-relative">
                                 <img src="assets/images/users/user3.jpg" width="44" height="44" class="rounded-circle position-absolute" alt="user">
-                                <span class="sub-title d-block fw-medium">
+                                <span class="sub-title rpm-block fw-medium">
                                     Brad Traversy  <span class="text-body fw-normal">2 days ago</span>
                                 </span>
-                                <span class="message d-block text-body">
+                                <span class="message rpm-block text-body">
                                     Hey Brad Traversy! Could you please...
                                 </span>
-                                <a routerLink="/chat" class="d-block link-btn position-absolute"></a>
+                                <a routerLink="/chat" class="rpm-block link-btn position-absolute"></a>
                             </li>
                         </ul>
                         <div class="menu-footer text-center">
-                            <a routerLink="/chat" class="link-btn text-daxa d-inline-block fw-medium">
+                            <a routerLink="/chat" class="link-btn text-rpm rpm-inline-block fw-medium">
                                 View All Messages
                             </a>
                         </div>
@@ -160,7 +160,7 @@
                     <i class="material-symbols-outlined">
                         notifications
                     </i>
-                    <span class="daxa-badge">
+                    <span class="rpm-badge">
                         3
                     </span>
                 </button>
@@ -168,12 +168,12 @@
                     <div
                         [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
                     >
-                        <div class="title d-flex align-items-center justify-content-between">
+                        <div class="title rpm-flex align-items-center justify-content-between">
                             <span class="fw-medium">
                                 Notifications
                                 <span class="text-body fw-normal">(03)</span>
                             </span>
-                            <a routerLink="/notifications" class="link-btn text-daxa">
+                            <a routerLink="/notifications" class="link-btn text-rpm">
                                 Clear All
                             </a>
                         </div>
@@ -184,14 +184,14 @@
                                         sms
                                     </i>
                                 </div>
-                                <span class="sub-title d-block">
+                                <span class="sub-title rpm-block">
                                     You have requested to <strong class="fw-medium">withdrawal</strong>
                                 </span>
-                                <span class="time d-block text-body">
+                                <span class="time rpm-block text-body">
                                     2 hrs ago
                                 </span>
-                                <a routerLink="/notifications" class="d-block link-btn position-absolute"></a>
-                                <span class="unread d-inline-block rounded-circle bg-daxa position-absolute"></span>
+                                <a routerLink="/notifications" class="rpm-block link-btn position-absolute"></a>
+                                <span class="unread rpm-inline-block rounded-circle bg-rpm position-absolute"></span>
                             </li>
                             <li class="position-relative">
                                 <div class="icon rounded-circle position-absolute text-center transition">
@@ -199,14 +199,14 @@
                                         person
                                     </i>
                                 </div>
-                                <span class="sub-title d-block">
-                                    <strong class="fw-medium">A new user</strong> added in Daxa
+                                <span class="sub-title rpm-block">
+                                    <strong class="fw-medium">A new user</strong> added in rpm
                                 </span>
-                                <span class="time d-block text-body">
+                                <span class="time rpm-block text-body">
                                     3 hrs ago
                                 </span>
-                                <a routerLink="/notifications" class="d-block link-btn position-absolute"></a>
-                                <span class="unread d-inline-block rounded-circle bg-daxa position-absolute"></span>
+                                <a routerLink="/notifications" class="rpm-block link-btn position-absolute"></a>
+                                <span class="unread rpm-inline-block rounded-circle bg-rpm position-absolute"></span>
                             </li>
                             <li class="position-relative">
                                 <div class="icon rounded-circle position-absolute text-center transition">
@@ -214,17 +214,17 @@
                                         mark_email_unread
                                     </i>
                                 </div>
-                                <span class="sub-title d-block">
+                                <span class="sub-title rpm-block">
                                     You have requested to <strong class="fw-medium">withdrawal</strong>
                                 </span>
-                                <span class="time d-block text-body">
+                                <span class="time rpm-block text-body">
                                     1 day ago
                                 </span>
-                                <a routerLink="/notifications" class="d-block link-btn position-absolute"></a>
+                                <a routerLink="/notifications" class="rpm-block link-btn position-absolute"></a>
                             </li>
                         </ul>
                         <div class="menu-footer text-center">
-                            <a routerLink="/notifications" class="link-btn text-daxa d-inline-block fw-medium">
+                            <a routerLink="/notifications" class="link-btn text-rpm rpm-inline-block fw-medium">
                                 See All Notifications
                             </a>
                         </div>
@@ -234,19 +234,19 @@
             <li>
                 <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-menu-btn">
                     <img src="assets/images/admin.png" alt="profile-image">
-                    <span class="status d-inline-block rounded-circle position-absolute"></span>
+                    <span class="status rpm-inline-block rounded-circle position-absolute"></span>
                 </button>
                 <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
                     <div
                         [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
                     >
-                        <div class="menu-header d-flex align-items-center">
+                        <div class="menu-header rpm-flex align-items-center">
                             <img src="assets/images/admin.png" alt="profile-image">
                             <div class="title">
-                                <a routerLink="/my-profile" class="d-inline-block fw-medium">
+                                <a routerLink="/my-profile" class="rpm-inline-block fw-medium">
                                     Mateo Luca
                                 </a>
-                                <span class="designation d-block text-body">
+                                <span class="designation rpm-block text-body">
                                     Admin
                                 </span>
                             </div>
@@ -257,28 +257,28 @@
                                     person
                                 </i>
                                 My Profile
-                                <a routerLink="/my-profile" class="link-btn d-block position-absolute"></a>
+                                <a routerLink="/my-profile" class="link-btn rpm-block position-absolute"></a>
                             </li>
                             <li class="position-relative transition fw-medium">
                                 <i class="material-symbols-outlined">
                                     settings
                                 </i>
                                 Settings
-                                <a routerLink="/settings" class="link-btn d-block position-absolute"></a>
+                                <a routerLink="/settings" class="link-btn rpm-block position-absolute"></a>
                             </li>
                             <li class="position-relative transition fw-medium">
                                 <i class="material-symbols-outlined">
                                     info
                                 </i>
                                 Support
-                                <a routerLink="/settings/connections" class="link-btn d-block position-absolute"></a>
+                                <a routerLink="/settings/connections" class="link-btn rpm-block position-absolute"></a>
                             </li>
                             <li class="position-relative transition fw-medium">
                                 <i class="material-symbols-outlined">
                                     logout
                                 </i>
                                 Logout
-                                <a routerLink="/authentication/logout" class="link-btn d-block position-absolute"></a>
+                                <a routerLink="/authentication/logout" class="link-btn rpm-block position-absolute"></a>
                             </li>
                         </ul>
                     </div>

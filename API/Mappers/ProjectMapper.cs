@@ -15,9 +15,9 @@ namespace API.Mappers
                 ProjectStatus = projectModel.ProjectStatus,
                 ProjectStartDate = projectModel.ProjectStartDate,
                 ProjectEndDate = projectModel.ProjectEndDate,
-                ProjectTeam = projectModel.ProjectTeam.Select(c => c.ToProjectTeamDto()).ToList(),
                 ProjectPhase = projectModel.ProjectPhase.Select(c => c.ToProjectPhaseDto()).ToList(),
-                ProjectTasks = projectModel.ProjectTasks.Select(c => c.ToProjectTasksDto()).ToList()
+                ProjectTasks = projectModel.ProjectTasks.Select(c => c.ToProjectTasksDto()).ToList(),
+                AppUsers = projectModel.AppUsers.Select(c => c.ToUserDetailDto()).ToList()
             };
         }
 

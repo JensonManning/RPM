@@ -9,6 +9,6 @@ namespace API.Models
     public class AppUser:IdentityUser
     {
         public string FullName { get; set; }
-        public List<ProjectTeam> ProjectTeam { get; set; } = new List<ProjectTeam>();
+        public List<Project> Projects { get; set; } = new List<Project>();
     }
 }

@@ -20,15 +20,15 @@ $rpm-theme: mat.m2-define-light-theme((
 
 :root {
     --fontFamily: 'Outfit', sans-serif;
-    --rpmColor: #537bff;
+    --rpmColor: #233e66;
     --primaryColor: #796df6;
     --dangerColor: #e74c3c;
     --infoColor: #00cae3;
     --warningColor: #ffb264;
     --successColor: #2ed47e;
-    --blackColor: #1a3c6b;
+    --blackColor: #242424;
     --whiteColor: #ffffff;
-    --bodyColor: #919aa3;
+    --bodyColor: #313131;
     --week1Color: #d159cb;
     --week2Color: #28a7f1;
     --week3Color: #f1b028;
@@ -47,7 +47,7 @@ body {
     margin: 0;
     padding: 0;
     color: var(--blackColor);
-    background-color: #eff3f9;
+    background-color: #202020;
     font: {
         weight: 400;
         size: var(--fontSize);
@@ -65,7 +65,7 @@ a {
         color: var(--rpmColor);
     }
 }
-.d-table {
+.rpm-table {
     width: 100%;
     height: 100%;
 

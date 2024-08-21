@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using API.Interfaces;
 using API.Mappers;
 using API.Dto.Projects;
+using Microsoft.AspNetCore.Identity;
+using API.Models;
 
 namespace API.Controllers
 {
@@ -14,10 +16,12 @@ namespace API.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IProjectRepository _projectRepo;
-        public ProjectsController(AppDbContext context, IProjectRepository projectRepo)
+        private readonly UserManager<AppUser> _userManager;
+        public ProjectsController(AppDbContext context, IProjectRepository projectRepo, UserManager<AppUser> userManager)
         {
             _context = context;
             _projectRepo = projectRepo;
+            _userManager = userManager;
         }
 
         // Get All
@@ -73,6 +77,27 @@ namespace API.Controllers
             await _projectRepo.CreateAsync(projectModel);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new {ProjectID = projectModel.ProjectID}, projectModel.ToProjectDto());
+        }
+
+        [HttpPost("{ProjectID}/users")]
+        public async Task<IActionResult> AddUserToProject([FromRoute] int ProjectID, [FromBody] string Username)
+        {
+            var project = await _projectRepo.GetByIdAsync(ProjectID);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByNameAsync(Username);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            project.AppUsers.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok("User added to project");
         }
 
         // Update

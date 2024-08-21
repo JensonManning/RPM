@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": "../../ProjectManagement/references/daxa18/daxa-angular-material-design-admin-dashboard-template/daxa"
+		},
+		{
+			"path": "../../ProjectManagement/references/rnpm-d-front"
 		}
 	],
 	"settings": {}

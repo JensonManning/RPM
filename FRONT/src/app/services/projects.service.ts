@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Projects } from '../models/project';
-import { Phases } from '../models/phases';
+import { Project } from '../models/project';
+import { ProjectPhase } from '../models/projectPhase';
 import { AllProjects } from '../models/allprojects';
-import { Tasks } from '../models/tasks';
+import { ProjectTasks } from '../models/projectTasks';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Users } from '../models/users';
 import { CreateUsers } from '../models/createUsers';
+import { AppUserDetail } from '../models/appUserDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -45,25 +46,37 @@ export class ProjectsService {
     getAllProjects(): Observable<AllProjects[]> {
       return this.http.get<AllProjects[]>(this.apiURL);
     }
-    createProjects(project: Projects): Observable<Projects> {
-      return this.http.post<Projects>(this.apiURL, project);
+    getProjectsByUserId(id: string): Observable<AllProjects[]> {
+      return this.http.get<AllProjects[]>(this.apiURL).pipe(
+        map((projects: AllProjects[]) => {
+          return projects.filter((project: AllProjects) => {
+            return project.appUsers.some((appUserID : AppUserDetail) => {
+              console.log("app id " + id);
+              return appUserID.id === id;
+            });
+          });
+        })
+      );
     }
-    getProjectById(id: number): Observable<Projects> {
-      return this.http.get<Projects>(`${this.apiURL}/${id}`);
+    createProjects(project: Project): Observable<Project> {
+      return this.http.post<Project>(this.apiURL, project);
+    }
+    getProjectById(id: number): Observable<Project> {
+      return this.http.get<Project>(`${this.apiURL}/${id}`);
     }
 
-    getPhases(): Observable<Phases[]> {
-      return this.http.get<Phases[]>(this.apiPhasesURL);
+    getPhases(): Observable<ProjectPhase[]> {
+      return this.http.get<ProjectPhase[]>(this.apiPhasesURL);
     }
-    createPhases(id: number, phases : Phases): Observable<Phases> {
-      return this.http.post<Phases>(`${this.apiPhasesURL}/${id}`, phases);
+    createPhases(id: number, projectPhase : ProjectPhase): Observable<ProjectPhase> {
+      return this.http.post<ProjectPhase>(`${this.apiPhasesURL}/${id}`, projectPhase);
     }
 
-    getTasks(): Observable<Tasks[]> {
-      return this.http.get<Tasks[]>(this.apiTasksURL);
+    getTasks(): Observable<ProjectTasks[]> {
+      return this.http.get<ProjectTasks[]>(this.apiTasksURL);
     }
-    createTasks(id: number, tasks : Tasks): Observable<Tasks> {
-      return this.http.post<Tasks>(`${this.apiTasksURL}/${id}`, tasks);
+    createTasks(id: number, projectTasks : ProjectTasks): Observable<ProjectTasks> {
+      return this.http.post<ProjectTasks>(`${this.apiTasksURL}/${id}`, projectTasks);
     }
 
     getUsers(): Observable<Users[]> {

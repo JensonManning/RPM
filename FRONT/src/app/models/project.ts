@@ -1,9 +1,9 @@
-export interface Projects {
-    projectsID: number;
-    projectsName: string;
-    projectsShortcode: string;
-    projectsDescription: string;
-    projectsStartDate: string;
-    projectsEndDate: string;
-    projectsStatus: string;
+export interface Project {
+    projectID: number;
+    projectName: string;
+    projectShortcode: string;
+    projectDescription: string;
+    projectStartDate: string;
+    projectEndDate: string;
+    projectStatus: string;
 }

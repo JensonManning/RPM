@@ -212,27 +212,19 @@ namespace API.Migrations
                     b.ToTable("ProjectTasks");
                 });
 
-            modelBuilder.Entity("API.Models.ProjectTeam", b =>
+            modelBuilder.Entity("AppUserProject", b =>
                 {
-                    b.Property<int>("ProjectTeamID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectTeamID"));
-
-                    b.Property<string>("AppUserID")
+                    b.Property<string>("AppUsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ProjectID")
+                    b.Property<int>("ProjectsProjectID")
                         .HasColumnType("int");
 
-                    b.HasKey("ProjectTeamID");
+                    b.HasKey("AppUsersId", "ProjectsProjectID");
 
-                    b.HasIndex("AppUserID");
+                    b.HasIndex("ProjectsProjectID");
 
-                    b.HasIndex("ProjectID");
-
-                    b.ToTable("ProjectTeam");
+                    b.ToTable("AppUserProject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -392,19 +384,19 @@ namespace API.Migrations
                     b.Navigation("ProjectPhase");
                 });
 
-            modelBuilder.Entity("API.Models.ProjectTeam", b =>
+            modelBuilder.Entity("AppUserProject", b =>
                 {
-                    b.HasOne("API.Models.AppUser", "AppUser")
-                        .WithMany("ProjectTeam")
-                        .HasForeignKey("AppUserID");
+                    b.HasOne("API.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("AppUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("API.Models.Project", "Project")
-                        .WithMany("ProjectTeam")
-                        .HasForeignKey("ProjectID");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Project");
+                    b.HasOne("API.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -458,18 +450,11 @@ namespace API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.AppUser", b =>
-                {
-                    b.Navigation("ProjectTeam");
-                });
-
             modelBuilder.Entity("API.Models.Project", b =>
                 {
                     b.Navigation("ProjectPhase");
 
                     b.Navigation("ProjectTasks");
-
-                    b.Navigation("ProjectTeam");
                 });
 #pragma warning restore 612, 618
         }

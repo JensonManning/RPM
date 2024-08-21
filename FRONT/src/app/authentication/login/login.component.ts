@@ -24,7 +24,7 @@ export class LoginComponent {
   // isToggled
   isToggled = false;
 
-  currentUser: Users = {} as Users;
+  currentUser: string = '';
 
   constructor(
       private fb: FormBuilder,
@@ -43,6 +43,10 @@ export class LoginComponent {
   // Password Hide
   hide = true;
 
+  goToProfileDashboard(id : string) {
+    this.router.navigate(['/profile-dashboard/' +  id ]);
+  }
+
   // Login 
   login() {
     this.authService.login(this.authForm.value).subscribe({
@@ -53,11 +57,9 @@ export class LoginComponent {
           duration: 10000,
           horizontalPosition: 'center',
         });
-        this.authService.getUserDetails().subscribe((data: Users) => {
-          this.currentUser = data;
-          console.log(this.currentUser);
-        })
-        this.router.navigate(['/profile-dashboard']);
+        this.currentUser = this.authService.getUserDetail()?.id;
+        console.log(this.currentUser);
+        this.goToProfileDashboard(this.currentUser);
       },
       error: (error) => {
         console.log(error);

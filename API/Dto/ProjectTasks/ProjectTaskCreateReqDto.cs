@@ -7,7 +7,6 @@ namespace API.Dto.ProjectTasks
 {
     public class ProjectTaskCreateReqDto
     {
-        public int ProjectTasksID { get; set; }
         public string ProjectTasksName { get; set; } = String.Empty;
         public string ProjectTasksDescription { get; set; } = String.Empty;
         public string ProjectTasksStatus { get; set; } = String.Empty;

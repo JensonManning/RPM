@@ -27,34 +27,44 @@ export class AuthService {
     );
   }
 
-  getToken = ():string|null => localStorage.getItem(this.tokenKey);
+  private getToken = (): string | null =>
+    localStorage.getItem(this.tokenKey) || '';
 
-  logout = ():void => localStorage.removeItem(this.tokenKey);
+  logout = (): void => 
+  {
+    localStorage.removeItem(this.tokenKey);
+  };
 
   isLoggedIn = ():boolean => {
     const token = this.getToken();
     if(!token) {
       return false;
     }
-    return !this.IsTokenEpired();
+    return !this.isTokenExpired();
   }
 
-  IsTokenEpired()  {
+  private isTokenExpired() {
     const token = this.getToken();
-    if(!token) {
-      return true;
-    }
+    if (!token) return true;
     const decoded = jwtDecode(token);
-    const IsTokenEpired = Date.now() > decoded['exp']! * 1000;
-    if(IsTokenEpired){
-      this.logout();
-    }
-    return IsTokenEpired;
+    const isTokenExpired = Date.now() >= decoded['exp']! * 1000;
+    if (isTokenExpired) this.logout();
+    return isTokenExpired;
   }
 
-  getUserDetails():Observable<Users> {
-    return this.http.get<Users>(`${this.apiUrl}/account/detail`);
-  }
+  getUserDetail = () => {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+    const userDetail = {
+      id: decodedToken.nameid,
+      fullName: decodedToken.name,
+      email: decodedToken.email,
+      roles: decodedToken.role || [],
+    };
+
+    return userDetail;
+  };
 
   private _userLoggedIn = new BehaviorSubject<boolean>(false);
 

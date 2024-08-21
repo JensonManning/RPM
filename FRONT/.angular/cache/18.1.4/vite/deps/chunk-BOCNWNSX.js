@@ -4628,6 +4628,7 @@ export {
   RIGHT_ARROW,
   DOWN_ARROW,
   hasModifierKey,
+  CdkObserveContent,
   ObserversModule,
   BreakpointObserver,
   Breakpoints,
@@ -4636,12 +4637,14 @@ export {
   isFakeTouchstartFromScreenReader,
   LiveAnnouncer,
   FocusMonitor,
+  CdkMonitorFocus,
   MatCommonModule,
   _ErrorStateTracker,
   ErrorStateMatcher,
+  MAT_RIPPLE_GLOBAL_OPTIONS,
   MatRipple,
   MatRippleModule,
   MatRippleLoader,
   _MatInternalFormField
 };
-//# sourceMappingURL=chunk-UEPNQEYT.js.map
+//# sourceMappingURL=chunk-BOCNWNSX.js.map

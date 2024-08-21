@@ -1,1 +1,139 @@
-<p>profile-active-projects works!</p>
+<mat-card
+    class="rpm-card active-project-card mb-25 border-radius bg-white border-none rpm-block"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>   
+        <mat-card-header>
+            <mat-card-title>
+                <h5 class="mt-0 mb-0">
+                    Active Project
+                </h5>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-tab-group>
+                <mat-tab *ngFor="let projects of project" label="{{projects.projectName}}">
+                    <div class="project-info rpm-flex align-items-center justify-content-between">
+                        <div class="rpm-md-flex align-items-center">
+                            <div class="info">
+                                <span class="rpm-block fw-medium">
+                                {{projects.projectName}}                               
+                                </span>
+                                <span class="client rpm-block">
+                                    <span class="text-body">{{projects.projectShortcode}}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" mat-button class="action-btn text-body" [matMenuTriggerFor]="activeProjectActionMenu">
+                                <i class="material-symbols-outlined">
+                                    more_horiz
+                                </i>
+                            </button>
+                            <mat-menu #activeProjectActionMenu="matMenu" class="action-menu" xPosition="before">
+                                <button mat-menu-item>
+                                    <i class="ri-eye-line"></i> View
+                                </button>
+                                <button mat-menu-item>
+                                    <i class="ri-edit-line"></i> Edit
+                                </button>
+                                <button mat-menu-item>
+                                    <i class="ri-delete-bin-6-line"></i> Delete
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                    <div class="project-status bg-gradient">
+                        <div class="numbers position-relative rpm-sm-flex align-items-center justify-content-between">
+                            <div class="box">
+                                <div *ngIf="projects.projectPhase[0].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    01
+                                </div>
+                                <div *ngIf="projects.projectPhase[0].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    01
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    Pre-Installs
+                                </span>
+                            </div>
+                            <div class="box">
+                                <!--<div *ngIf="projects.projectPhase[1].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    02
+                                </div>
+                                <div *ngIf="projects.projectPhase[1].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    02
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    Installs
+                                </span>-->
+                            </div>
+                            <div class="box">
+                                <!--<div *ngIf="projects.projectPhase[2].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    03
+                                </div>
+                                <div *ngif="projects.projectPhase[2].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    03
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    App Review
+                                </span>-->
+                            </div>
+                            <div class="box">
+                                <!--<div *ngIf="projects.projectPhase[3].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    04
+                                </div>
+                                <div *ngIf="projects.projectPhase[3].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    04
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    User Testing
+                                </span>-->
+                            </div>
+                            <div class="box">
+                                <!--<div *ngIf="projects.projectPhase[4].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    05
+                                </div>
+                                <div *ngIf="projects.projectPhase[4].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    05
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    Cutover
+                                </span>-->
+                            </div>
+                            <div class="box">
+                                <!--<div *ngIf="projects.projectPhase[5].projectPhaseStatus != 'Active'" class="rounded-circle text-center transition text-white fw-medium">
+                                    06
+                                </div>
+                                <div *ngIf="projects.projectPhase[5].projectPhaseStatus == 'Active'" class="active rounded-circle text-center transition text-white fw-medium">
+                                    06
+                                </div>
+                                <span class="fw-medium rpm-block text-white">
+                                    Post Cutover
+                                </span> -->
+                            </div>
+                        </div>
+                        <div class="rpm-flex align-items-center justify-content-between">
+                            <span class="rpm-block fw-medium text-white">
+                                0%
+                            </span>
+                            <span class="rpm-block fw-medium text-white">
+                                50%
+                            </span>
+                            <span class="rpm-block fw-medium text-white">
+                                100%
+                            </span>
+                        </div>
+                        <mat-progress-bar mode="determinate" value="25"></mat-progress-bar>
+                    </div>
+                    <div class="rpm-flex align-items-center justify-content-between">
+                        <span class="rpm-block">
+                            <a class="sidemenu-link" [routerLink]="['/project', projects.projectID]">Go To Project</a>
+                        </span>
+                        <span class="rpm-block">
+                            Project Hours Left: 144 hrs
+                        </span>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+</mat-card>
