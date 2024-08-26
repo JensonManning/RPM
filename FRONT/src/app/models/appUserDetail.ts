@@ -3,8 +3,8 @@ export interface AppUserDetail {
     email: string;
     fullName: string;
     roles: string[];
-    userPhone: string;
-    userRole: string;
+    phoneNumber: string;
+    phoneNumberConfirmed: boolean;
     twoFactorEnabled: boolean;
     accessFailedCount: number;
 }

@@ -15,6 +15,8 @@ import { CustomizerSettingsService } from '../../customizer-settings/customizer-
 })
 export class SidebarComponent {
 
+    id = localStorage.getItem('appUserID')?.toString().replace('"', '').replace('"', ''); // user id
+
     // isSidebarToggled
     isSidebarToggled = false;
 

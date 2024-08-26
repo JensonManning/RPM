@@ -2,6 +2,12 @@
 
 namespace API.Models
 {
+    public enum ProjectTasksAction
+        {
+            View,
+            Edit,
+            Delete
+        }
     public class ProjectTasks
     {
         public int ProjectTasksID { get; set; }
@@ -10,6 +16,10 @@ namespace API.Models
         public string ProjectTasksStatus { get; set; } = String.Empty;
         public string ProjectTasksStartDate { get; set; } = String.Empty;
         public string ProjectTasksEndDate { get; set; } = String.Empty;
+
+        public ProjectTasksAction Action { get; set; }
+
+        public bool Allowed { get; set; }
 
         public int? ProjectID { get; set; }
         public Project? Project { get; set; }

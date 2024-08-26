@@ -1,10 +1,13 @@
+import { ProjectPhase } from "./projectPhase";
+
 export interface ProjectTasks {
-    projectTaskID: number;
-    projectTaskName: string;
-    projectTaskDescription: string;
-    projectTaskStartDate: string;
-    projectTaskEndDate: string;
-    projectTaskStatus: string;
+    projectTasksID: number;
+    projectTasksName: string;
+    projectTasksDescription: string;
+    projectTasksStartDate: string;
+    projectTasksEndDate: string;
+    projectTasksStatus: string;
     projectID: number;
-    phaseID: number;
+    projectPhase: Array<ProjectPhase>;
+    projectPhaseID: number;
 }

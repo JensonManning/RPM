@@ -20,12 +20,39 @@
                 <span class="bottom-bar rpm-block bg-black transition"></span>
             </div>
             <form class="search-box position-relative">
-                <i class="material-symbols-outlined">
-                    search
-                </i>
-                <input type="text" class="input-search rpm-block w-100 border-none outline-0" placeholder="Search here...">
+                <!--<input type="text" class="input-search rpm-block w-100 border-none outline-0" placeholder="Search here...">-->
+                <mat-form-field>
+                    
+                    <mat-label>
+                        Project Search
+                    </mat-label>
+                    <mat-select [(ngModel)]="selectedProject">
+                        <mat-option
+                        *ngFor="let project of allProjects; trackBy: trackById"
+                        [value]="project.projectID"
+                    >                     
+                        {{ project.projectName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </form>
+            
+            
         </div>
+
+        <ul class="header-left-side rpm-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
+            <li class="p-5" *ngFor="let project of userProjects">
+                <button mat-stroked-button [matMenuTriggerFor]="menu" class="rpm rpm-block w-100 text-center">{{project.projectName}}</button>
+                <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialogTasks()">Tasks</button>
+                <button mat-menu-item>Events</button>
+                <button mat-menu-item>Notebooks</button>
+                <button mat-menu-item>Calendar</button>
+                </mat-menu>
+            </li>
+        </ul>
+
+
         
         <ul class="header-right-side rpm-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
             <li>

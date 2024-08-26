@@ -30,7 +30,7 @@
                     <span class="sub-title text-body">
                         MAIN
                     </span>
-                        <a routerLink="/" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/profile-dashboard/{{id}}" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 dashboard
                             </i>
@@ -41,7 +41,7 @@
                     <span class="sub-title text-body">
                         APPS
                     </span>
-                    <a routerLink="/to-do-list" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/profile-dashboard/{{id}}/profile-tasks" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             ballot
                         </i>
@@ -132,16 +132,6 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/project-management" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Project Overview
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/project-management/projects-list" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Projects List
-                                </a>
-                            </li>
                             <li class="sidemenu-item">
                                 <a routerLink="/project-management/create-project" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     Create Project

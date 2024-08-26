@@ -1,8 +1,8 @@
 export interface Users {
-    userID: number,
-    userName: string,
-    userEmail: string,
-    userPhone: string,
-    userPassword: string,
+    id: number,
+    email: string,
+    fullName: string,
+    phoneNumber: string,
+    phoneNumberConfirmed: boolean,
     userRole: string
 }

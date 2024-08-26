@@ -1,35 +1,35 @@
 export interface CreatePhases {
-    phasesName: string,
-    phasesDescription: string,
-    phasesStartDate: string,
-    phasesEndDate: string,
-    phasesStatus: string,
+    projectphaseName: string,
+    projectphaseDescription: string,
+    projectphaseStartDate: string,
+    projectphaseEndDate: string,
+    projectphaseStatus: string,
     projectsID: number
 }
 
 export const createPhases: CreatePhases[] = [
     {
-        phasesName: '',
-        phasesDescription: '',
-        phasesStartDate: '',
-        phasesEndDate: '',
-        phasesStatus: '',
+        projectphaseName: '',
+        projectphaseDescription: '',
+        projectphaseStartDate: '',
+        projectphaseEndDate: '',
+        projectphaseStatus: '',
         projectsID: 0
     },
     {
-        phasesName: '',
-        phasesDescription: '',
-        phasesStartDate: '',
-        phasesEndDate: '',
-        phasesStatus: '',
+        projectphaseName: '',
+        projectphaseDescription: '',
+        projectphaseStartDate: '',
+        projectphaseEndDate: '',
+        projectphaseStatus: '',
         projectsID: 0
     },
     {
-        phasesName: '',
-        phasesDescription: '',
-        phasesStartDate: '',
-        phasesEndDate: '',
-        phasesStatus: '',
+        projectphaseName: '',
+        projectphaseDescription: '',
+        projectphaseStartDate: '',
+        projectphaseEndDate: '',
+        projectphaseStatus: '',
         projectsID: 0
     }
 ];

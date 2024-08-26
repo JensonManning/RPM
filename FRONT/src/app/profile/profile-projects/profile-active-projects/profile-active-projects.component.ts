@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, input, Input } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { CustomizerSettingsService } from '../../../customizer-settings/customiz
 import { CommonModule, NgIf } from '@angular/common';
 import { ProjectsService } from '../../../services/projects.service';
 import { AllProjects } from '../../../models/allprojects';
+import { AsyncLocalStorage } from 'async_hooks';
 
 
 
@@ -23,8 +24,9 @@ import { AllProjects } from '../../../models/allprojects';
 })
 export class ProfileActiveProjectsComponent {
 
-    @Input() project?: AllProjects[];
-    @Input() projectNames?: any[];  
+    @Input() activeProjects?: AllProjects[];
+    @Input() activeProjectNames?: any[];
+
   // isToggled
   isToggled = false;
 
@@ -44,4 +46,5 @@ export class ProfileActiveProjectsComponent {
   toggleRTLEnabledTheme() {
       this.themeService.toggleRTLEnabledTheme();
   }
+
 }

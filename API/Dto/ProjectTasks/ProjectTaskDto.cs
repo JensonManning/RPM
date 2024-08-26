@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace API.Dto.ProjectTasks
 {
+        public enum ProjectTasksAction
+        {
+            View,
+            Edit,
+            Delete
+        }
     public class ProjectTaskDto
     {
         public int ProjectTasksID { get; set; }
@@ -13,6 +19,8 @@ namespace API.Dto.ProjectTasks
         public string ProjectTasksStatus { get; set; } = String.Empty;
         public string ProjectTasksStartDate { get; set; } = String.Empty;
         public string ProjectTasksEndDate { get; set; } = String.Empty;
+
+        public ProjectTasksAction ProjectTasksAction { get; set; }
 
         public int? ProjectID { get; set; }
         public int? ProjectPhaseID { get; set; }

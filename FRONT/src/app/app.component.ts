@@ -1,5 +1,5 @@
 declare let $: any;
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -31,7 +31,6 @@ export class AppComponent {
     title = 'Rightworks Project Management';
     routerSubscription: any;
     location: any;
-
     // isSidebarToggled
     isSidebarToggled = false;
 

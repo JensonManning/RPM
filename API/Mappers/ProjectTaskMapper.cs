@@ -19,6 +19,7 @@ namespace API.Mappers
                 ProjectTasksStartDate = projectTasksModel.ProjectTasksStartDate, 
                 ProjectTasksEndDate = projectTasksModel.ProjectTasksEndDate, 
                 ProjectTasksStatus = projectTasksModel.ProjectTasksStatus,
+                ProjectTasksAction = (Dto.ProjectTasks.ProjectTasksAction)projectTasksModel.Action,
                 ProjectID = projectTasksModel.ProjectID,
                 ProjectPhaseID = projectTasksModel.ProjectPhaseID
             };

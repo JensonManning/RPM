@@ -23,7 +23,7 @@ export class ProjectsService {
   private apiURL = `${environment.apiURL}/projects`
   private apiPhasesURL = `${environment.apiURL}/projects/phases`
   private apiTasksURL = `${environment.apiURL}/projects/tasks`
-  private apiUsersURL = `${environment.apiURL}/account/users`
+  private apiUsersURL = `${environment.apiURL}/account`
   private apiUsersCreateURL = `${environment.apiURL}/account/register`
 
   constructor(private http: HttpClient) { 
@@ -46,18 +46,89 @@ export class ProjectsService {
     getAllProjects(): Observable<AllProjects[]> {
       return this.http.get<AllProjects[]>(this.apiURL);
     }
+
+     getActiveProjectsByUserId(id: string): Observable<AllProjects[]> {
+       return this.http.get<AllProjects[]>(this.apiURL).pipe(
+         map((projects: AllProjects[]) => {
+           return projects.filter((project: AllProjects) => {
+             return project.appUsers.some((appUserID : AppUserDetail) => {
+               return appUserID.id === id;
+             }) && project.projectStatus === 'Active';
+           });
+         })
+       );
+    }
+
+     getUpcomingProjectsByUserId(id: string): Observable<AllProjects[]> {
+       return this.http.get<AllProjects[]>(this.apiURL).pipe(
+         map((projects: AllProjects[]) => {
+           return projects.filter((project: AllProjects) => {
+             return project.appUsers.some((appUserID : AppUserDetail) => {
+               return appUserID.id === id;
+             }) && project.projectStatus === 'Upcoming';
+           });
+         })
+       );
+     }
+
+    // getActiveProjectTasks
+
+    // get
     getProjectsByUserId(id: string): Observable<AllProjects[]> {
       return this.http.get<AllProjects[]>(this.apiURL).pipe(
         map((projects: AllProjects[]) => {
           return projects.filter((project: AllProjects) => {
             return project.appUsers.some((appUserID : AppUserDetail) => {
-              console.log("app id " + id);
+              localStorage.setItem('appUserID', JSON.stringify(appUserID.id));
+              console.log("app id " + appUserID.id + " | localstorage " + localStorage.getItem('appUserID'));
               return appUserID.id === id;
-            });
+            }) && project.projectStatus === 'Active';
           });
         })
       );
+    };
+
+    getProjectActiveTasksByUserId(id: string): Observable<AllProjects[]> {
+      return this.http.get<AllProjects[]>(this.apiURL).pipe(
+        map((projects: AllProjects[]) => {
+          return projects.filter((project: AllProjects) => {
+            return project.appUsers.some((appUserID : AppUserDetail) => {
+              return appUserID.id === id;
+            }) && project.projectStatus === 'Active';
+          });
+        })
+      );
+    };
+
+    getProjectUpcomingTasksByUserId(id: string): Observable<AllProjects[]> {
+      return this.http.get<AllProjects[]>(this.apiURL).pipe(
+        map((projects: AllProjects[]) => {
+          return projects.filter((project: AllProjects) => {
+            return project.appUsers.some((appUserID : AppUserDetail) => {
+              return appUserID.id === id;
+            }) && project.projectStatus === 'Upcoming';
+          });
+        })
+      );
+    };
+
+    getProjectCompletedTasksByUserId(id: string): Observable<AllProjects[]> {
+      return this.http.get<AllProjects[]>(this.apiURL).pipe(
+        map((projects: AllProjects[]) => {
+          return projects.filter((project: AllProjects) => {
+            return project.appUsers.some((appUserID : AppUserDetail) => {
+              return appUserID.id === id;
+            }) && project.projectStatus === 'Completed';
+          });
+        })
+      );
+    };
+
+    getProjectByIdWithTasks(id: number): Observable<ProjectTasks> {
+      return this.http.get<ProjectTasks>(`${this.apiTasksURL}/${id}`);
     }
+
+
     createProjects(project: Project): Observable<Project> {
       return this.http.post<Project>(this.apiURL, project);
     }
@@ -79,8 +150,8 @@ export class ProjectsService {
       return this.http.post<ProjectTasks>(`${this.apiTasksURL}/${id}`, projectTasks);
     }
 
-    getUsers(): Observable<Users[]> {
-      return this.http.get<Users[]>(this.apiUsersURL);
+    getUsers(): Observable<AppUserDetail[]> {
+      return this.http.get<AppUserDetail[]>(this.apiUsersURL);
     }
 
     createUsers(): Observable<CreateUsers[]> {

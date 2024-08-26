@@ -1,0 +1,186 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 rpm-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Create Project
+    </h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a routerLink="/" class="rpm-inline-block position-relative">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Project Management
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Projects
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Create Project
+        </li>
+    </ol>
+</div>
+
+<!-- Create Project -->
+<mat-card
+    class="rpm-card create-project-card mb-25 border-radius bg-white border-none rpm-block"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mt-0 mb-0">
+                Create New Project
+            </h5>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form (ngSubmit)="onSubmit()">
+            <mat-stepper [linear]="true" #stepper>
+                <mat-step label="Step 1 : Project Details">
+                    <ng-template matStepLabel>
+                        Step 1 : Project Details
+                    </ng-template>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Project Name
+                                        </label>
+                                        <mat-form-field>
+                                            <mat-label>
+                                                Write project name
+                                            </mat-label>
+                                            <input matInput placeholder="Projects Team Co" required name="projectName" [(ngModel)]="project.projectName">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Project Shortcode
+                                        </label>
+                                        <mat-form-field>
+                                            <mat-label>
+                                                Write Shortcode 
+                                            </mat-label>
+                                            <input matInput placeholder="TEST24E" required name="projectShortcode" [(ngModel)]="project.projectShortcode">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Project Start Date
+                                        </label>
+                                        <mat-form-field class="w-100">
+                                            <mat-label> Enter Start Date</mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <input matInput [matDatepicker]="picker" (dateInput)="onChangeStart($event)">
+                                            <mat-datepicker  #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Project Description
+                                        </label>
+                                        <div class="NgxEditor__Wrapper">
+                                            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                                            <ngx-editor [editor]="editor" [placeholder]="'Type here...'" name="projectDescription" [(ngModel)]="project.projectDescription"></ngx-editor>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <!--<div class="col-sm-6">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Project Manager
+                                        </label>
+                                        <mat-form-field>
+                                            <mat-label>
+                                                Select
+                                            </mat-label>
+                                            <mat-select>
+                                                <mat-option value="option1">
+                                                    Walter Frazier
+                                                </mat-option>
+                                                <mat-option value="option2">
+                                                    Kimberly Anderson
+                                                </mat-option>
+                                                <mat-option value="option3">
+                                                    Roscoe Guerrero
+                                                </mat-option>
+                                                <mat-option value="option4">
+                                                    Robert Stewart
+                                                </mat-option>
+                                                <mat-option value="option4">
+                                                    Dustin Fritch
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>-->
+                            <<div class="col-sm-6">
+                                    <div class="mb-25">
+                                        <label class="main-label rpm-block lh-1 text-black">
+                                            Add Team Members
+                                        </label>
+                                        <mat-form-field>
+                                            <mat-label>
+                                                Select
+                                            </mat-label>
+                                            <mat-select multiple name="users" [(ngModel)]="users">
+                                                <mat-option *ngFor ="let user of users" value="{{user.id}}">
+                                                    {{user.fullName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>                          
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+            </mat-stepper>
+            <div class="col-lg-4">
+                <div class="mb-25">
+                    <label class="main-label rpm-block lh-1 text-black">
+                        Project : 
+                    </label>
+                    <div>
+                        <p>
+                            Project ID : {{project.projectID}}
+                        </p>
+                        <p> 
+                            Project Shortcode : {{project.projectShortcode}}
+                        </p>
+                        <p>
+                            Project Name : {{project.projectName}}
+                        </p>
+                        <p>
+                            project Start Date : {{project.projectStartDate}}
+                        </p>
+                        <p>
+                            End Date : {{project.projectEndDate}}
+                        </p>
+                        <p>
+                            Project Description : {{project.projectDescription}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-box">
+                <button mat-button>
+                    + Create Project
+                </button>
+                <button mat-button>
+                    Cancel
+                </button>
+            </div>
+        </form> 
+    </mat-card-content>
+</mat-card>

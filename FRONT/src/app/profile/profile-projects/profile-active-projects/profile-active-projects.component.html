@@ -5,13 +5,13 @@
         <mat-card-header>
             <mat-card-title>
                 <h5 class="mt-0 mb-0">
-                    Active Project
+                    Active Projects 
                 </h5>
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <mat-tab-group>
-                <mat-tab *ngFor="let projects of project" label="{{projects.projectName}}">
+                <mat-tab *ngFor="let projects of activeProjects" label="{{projects.projectName}}">
                     <div class="project-info rpm-flex align-items-center justify-content-between">
                         <div class="rpm-md-flex align-items-center">
                             <div class="info">

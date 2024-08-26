@@ -1,9 +1,15 @@
 <div class="row">
+    <!-- Active Projects -->
     <div class="col-lg-12 col-xxxl-6">
-
-    <!-- Active Project -->
-    <!--<app-active-project [projects]="projects" [projectNames]="projectNames"/>-->
-    <app-profile-active-projects [project]="project" [projectNames]="projectNames"/>
+        <app-profile-active-projects [activeProjects]="activeProjects" [activeProjectNames]="activeProjectNames"/>
     </div>
-    
+    <!-- Upcoming Projects -->
+    <div class="col-lg-12 col-xxxl-6">
+        <app-profile-upcoming-projects [upcomingProjects]="upcomingProjects" [upcomingProjectNames]="upcomingProjectNames"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-xxxl-6">
+        <app-profile-active-tasks [activeProjects]="activeProjects"/>
 </div>
