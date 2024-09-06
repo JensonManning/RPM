@@ -62,5 +62,32 @@ namespace API.Repository
             return existingProjectTask;
         }
 
+        public async Task<IEnumerable<ProjectTasks>> GetActiveProjectTasksByAppUserIDAsync(string AppUserID, ProjectTaskStatusEnum projectTaskStatus)
+        {
+            return await _context.ProjectTasks
+            .Where(p => p.AppUsers.Any(a => a.Id == AppUserID) && p.ProjectTasksStatus == projectTaskStatus.ToString())
+            .ToListAsync();
+        }
+
+        public async Task<ProjectTasks?> UpdateToCompleteAsync(int ProjectTasksID, ProjectTaskUpdateToCompleteDto projectTaskDto)
+        {
+            var existingProjectTask = await _context.ProjectTasks.FirstOrDefaultAsync(t => t.ProjectTasksID == ProjectTasksID);
+            if (existingProjectTask == null)
+            {
+                return null;
+            }
+            existingProjectTask.ProjectTasksStatus = projectTaskDto.ProjectTasksStatus;
+            await _context.SaveChangesAsync();
+            return existingProjectTask;
+        }
+
+        public async Task<IEnumerable<ProjectTasks>> GetAllByStatusAndAppUserIDAsync(string AppUserID, string projectTaskStatus)
+        {
+            return await _context.ProjectTasks
+            .Where(p => p.AppUsers.Any(a => a.Id == AppUserID) && p.ProjectTasksStatus == projectTaskStatus.ToString())
+            .ToListAsync();
+        }
+
+        
     }
 }

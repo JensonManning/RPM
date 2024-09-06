@@ -15,5 +15,12 @@ namespace API.Dto.ProjectTasks
 
         public int? ProjectID { get; set; }
         public int? ProjectPhaseID { get; set; }
+
+        public enum ProjectTaskActions
+        {
+            View,
+            Edit,
+            Delete
+        }
     }
 }

@@ -123,6 +123,9 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectStatusEnum")
+                        .HasColumnType("int");
+
                     b.HasKey("ProjectID");
 
                     b.ToTable("Project");
@@ -183,6 +186,12 @@ namespace API.Migrations
                     b.Property<int?>("ProjectPhaseID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProjectTaskActions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectTaskStatusEnum")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProjectTasksDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -225,6 +234,21 @@ namespace API.Migrations
                     b.HasIndex("ProjectsProjectID");
 
                     b.ToTable("AppUserProject");
+                });
+
+            modelBuilder.Entity("AppUserProjectTasks", b =>
+                {
+                    b.Property<string>("AppUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProjectTasksID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUsersId", "ProjectTasksID");
+
+                    b.HasIndex("ProjectTasksID");
+
+                    b.ToTable("AppUserProjectTasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -395,6 +419,21 @@ namespace API.Migrations
                     b.HasOne("API.Models.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AppUserProjectTasks", b =>
+                {
+                    b.HasOne("API.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("AppUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.ProjectTasks", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectTasksID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

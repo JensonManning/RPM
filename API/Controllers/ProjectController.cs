@@ -5,6 +5,7 @@ using API.Mappers;
 using API.Dto.Projects;
 using Microsoft.AspNetCore.Identity;
 using API.Models;
+using static API.Models.ProjectStatusEnum;
 
 namespace API.Controllers
 {
@@ -36,40 +37,98 @@ namespace API.Controllers
         }
 
         // Get By Id
-        [HttpGet("{ProjectID}")]
+        [HttpGet("ProjectID/{ProjectID}")]
         public async Task<IActionResult> GetById([FromRoute] int ProjectID) {
             var project = await _projectRepo.GetByIdAsync(ProjectID);
+
                 if(project == null) 
                 {
                     return NotFound();
                 }
-            return Ok(project.ToProjectDto());
+            var projectDTO = project.ToProjectDto();
+            return Ok(projectDTO);
         }
 
-        // Get By Name
-        [HttpGet("{ProjectID}/{ProjectStatus}")]
+        // Get All By Project Status
+        [HttpGet("ProjectStatus/{ProjectStatus}")]
         public async Task<IActionResult> GetByName([FromRoute] string ProjectStatus) {
-            var project = await _projectRepo.GetByNameAsync(ProjectStatus);
-            if(project == null) {
+        var projects = await _projectRepo.GetByNameAsync(ProjectStatus);
+
+        if (projects == null)
+        {
+            return BadRequest(new { message = "No projects with that status exist" });
+        }   
+        else 
+        {
+            var projectDTO = projects.ToProjectDto();
+            return Ok(projectDTO);
+        }
+    }
+        
+        // Get All By AppUserID
+        [HttpGet("{AppUserID}")]
+        public async Task<IActionResult> GetByAppUserID([FromRoute] string AppUserID) {
+            var projects = await _projectRepo.GetByAppUserIDAsync(AppUserID);
+            if(projects == null) {
                 return NotFound();
             }
-            switch(project.ProjectStatus) {
-                case "Created":
-                    return Ok("Project status is " + project.ProjectStatus + project.ToProjectDto());
-                case "Active":
-                    return Ok("Project status is " + project.ProjectStatus + project.ToProjectDto());
-                case "Complete":
-                    return Ok("Project status is " + project.ProjectStatus + project.ToProjectDto());
-                case "Cancelled":
-                    return Ok("Project status is " + project.ProjectStatus + project.ToProjectDto());
-                case "Delayed":
-                    return Ok("Project status is " + project.ProjectStatus + project.ToProjectDto());
-                default:
-                    this.HttpContext.Response.StatusCode = 900;
-                    return StatusCode(900 , "Project is status is not defined properly");
+            return Ok(projects.ToProjectDto());
+        }
+        
+        // Get Active Projects By UserID
+        [HttpGet("UserActive/{AppUserID}")]
+        public async Task<IActionResult> GetActiveProjectsByAppUserID([FromRoute] string AppUserID)
+        {
+            var projects = await _projectRepo.GetActiveProjectsByAppUserIDAsync(AppUserID, ProjectStatusEnum.Active);
+
+            if (projects == null)
+            {
+                return BadRequest(new { message = "No active projects with that user ID exist" });
+            }
+
+            var projectDTO = projects.Select(p => p.ToProjectDto());
+            return Ok(projectDTO);
+        }
+
+        // Get Upcoming Projects By UserID
+        [HttpGet("UserUpcoming/{AppUserID}")]
+        public async Task<IActionResult> GetUpcomingProjectsByAppUserID([FromRoute] string AppUserID)
+        {
+            var projects = await _projectRepo.GetUpcomingProjectsByAppUserIDAsync(AppUserID, ProjectStatusEnum.Upcoming);
+
+            if (projects == null)
+            {
+                return BadRequest(new { message = "No upcoming projects with that user ID exist" });
+            }
+
+            var projectDTO = projects.Select(p => p.ToProjectDto());
+            return Ok(projectDTO);
+        }
+
+        // Get Projects By Status and User ID
+        [HttpGet("{AppUserID}/{ProjectStatus}")]
+        public async Task<IActionResult> GetByAppUserIDAndProjectStatus([FromRoute] string AppUserID, [FromRoute] string ProjectStatus)
+        {
+            var projects = await _projectRepo.GetByAppUserIDAndProjectStatusNamesAsync(AppUserID,ProjectStatus);
+
+            if (projects == null)
+            {
+                return BadRequest(new { message = "No projects with that status exist" });
+            }   
+            else 
+            {
+                var projectDTO = projects.Select(p => p.ToProjectDto());
+                return Ok(projectDTO);
             }
         }
 
+        // Get Project Names By Status and User ID
+        [HttpGet("names/{AppUserID}/{ProjectStatus}")]
+        public async Task<IActionResult> GetProjectNamesByAppUserIDAndStatus(string AppUserID, string ProjectStatus)
+        {
+            var result = await _projectRepo.GetByAppUserIDAndProjectStatusNamesAsync(AppUserID, ProjectStatus);
+            return Ok(result);
+        }
         // Create
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProjectCreateReqDto projectDto) {
@@ -80,7 +139,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{ProjectID}/users")]
-        public async Task<IActionResult> AddUserToProject([FromRoute] int ProjectID, [FromBody] string Username)
+        public async Task<IActionResult> AddUserToProject2([FromRoute] int ProjectID, [FromBody] string Username)
         {
             var project = await _projectRepo.GetByIdAsync(ProjectID);
             if (project == null)
@@ -97,6 +156,14 @@ namespace API.Controllers
             project.AppUsers.Add(user);
             await _context.SaveChangesAsync();
 
+            return Ok("User added to project");
+        }
+
+        [HttpPost("AddUserToProject/{ProjectID}/{Username}")]
+        public async Task<IActionResult> AddUserToProject([FromRoute] int ProjectID, [FromRoute] string UserName)
+        {
+            var project = await _projectRepo.AddUserToProjectAsync(ProjectID, UserName);
+            if (project == null) return NotFound();
             return Ok("User added to project");
         }
 
@@ -119,5 +186,7 @@ namespace API.Controllers
             }
             return NoContent();
         }
+
+        
     }
 }

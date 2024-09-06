@@ -6,6 +6,7 @@ using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using API.Mappers;
 using API.Dto.ProjectTasks;
+using API.Models;
 
 namespace API.Controllers
 {
@@ -43,6 +44,33 @@ namespace API.Controllers
             return Ok(projectTasks.ToProjectTasksDto());
         }
 
+        // Get Active Tasks By User ID
+        [HttpGet("activetasks/{AppUserID}")]
+        public async Task<IActionResult> GetActiveProjectTasksByAppUserID([FromRoute] string AppUserID)
+        {
+            var projectTasks = await _projectTasksRepo.GetActiveProjectTasksByAppUserIDAsync(AppUserID, ProjectTaskStatusEnum.Active);
+            var projectTasksDTO = projectTasks.Select(p => p.ToProjectTasksDto());
+            return Ok(projectTasksDTO);
+        }
+
+        // Get Upcoming Tasks By User ID
+        [HttpGet("upcomingtasks/{AppUserID}")]
+        public async Task<IActionResult> GetUpcomingProjectTasksByAppUserID([FromRoute] string AppUserID)
+        {
+            var projectTasks = await _projectTasksRepo.GetActiveProjectTasksByAppUserIDAsync(AppUserID, ProjectTaskStatusEnum.Upcoming);
+            var projectTasksDTO = projectTasks.Select(p => p.ToProjectTasksDto());
+            return Ok(projectTasksDTO);
+        }
+
+        // Get All Tasks By Status and User ID
+        [HttpGet("{Status}/{AppUserID}")]
+        public async Task<IActionResult> GetAllByStatusAndAppUserID([FromRoute] string Status, [FromRoute] string AppUserID)
+        {
+            var projectTasks = await _projectTasksRepo.GetAllByStatusAndAppUserIDAsync(Status, AppUserID);
+            var projectTasksDTO = projectTasks.Select(p => p.ToProjectTasksDto());
+            return Ok(projectTasksDTO);
+        }
+
         // Create
         [HttpPost("{ProjectID}")]
         public async Task<IActionResult> Create([FromRoute] int ProjectID, ProjectTaskCreateReqDto projectTasksDto)
@@ -62,6 +90,19 @@ namespace API.Controllers
         public async Task<IActionResult> Update([FromRoute] int ProjectTasksID, [FromBody] ProjectTaskUpdateReqDto projectTaskDto)
         {
             var projectTasks = await _projectTasksRepo.UpdateAsync(ProjectTasksID, projectTaskDto);
+            if (projectTasks == null)
+            {
+                return NotFound(new { message = "Project Tasks not found" });
+            }
+            return Ok(projectTasks);
+        }
+
+        // Update Task to Complete
+        // Update Task to Complete
+        [HttpPut("complete/{ProjectTasksID}")]
+        public async Task<IActionResult> UpdateToComplete([FromRoute] int ProjectTasksID, [FromBody] ProjectTaskUpdateToCompleteDto projectTaskDto)
+        {
+            var projectTasks = await _projectTasksRepo.UpdateToCompleteAsync(ProjectTasksID, projectTaskDto);
             if (projectTasks == null)
             {
                 return NotFound(new { message = "Project Tasks not found" });

@@ -1,4 +1,4 @@
-import { Component, computed, input, Input } from '@angular/core';
+import { Component, computed, inject, input, Input, signal } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,9 +9,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NgFor } from '@angular/common';
 import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
 import { CommonModule, NgIf } from '@angular/common';
-import { ProjectsService } from '../../../services/projects.service';
-import { AllProjects } from '../../../models/allprojects';
+import { ProjectService } from '../../../services/project/project.service';
 import { AsyncLocalStorage } from 'async_hooks';
+import { RpmService } from '../../../services/rpm.service';
+import { AllProjects } from '../../../models/projects/projects';
 
 
 
@@ -24,14 +25,19 @@ import { AsyncLocalStorage } from 'async_hooks';
 })
 export class ProfileActiveProjectsComponent {
 
-    @Input() activeProjects?: AllProjects[];
-    @Input() activeProjectNames?: any[];
+    private rpmService = inject(RpmService);
+    userID = localStorage.getItem('appUserID')?.toString().replace('"', '').replace('"', '');
+
+    initActiveProjects : AllProjects[] = [];
+    initActiveProjectNames : any[] = [];
+    activeProjects = signal(this.initActiveProjects);
+    activeProjectNames = signal(this.initActiveProjectNames);
 
   // isToggled
   isToggled = false;
 
   constructor(
-      private router: Router, public themeService: CustomizerSettingsService, private projectsService: ProjectsService
+      private router: Router, public themeService: CustomizerSettingsService, private projectService: ProjectService
   ) {
       this.themeService.isToggled$.subscribe(isToggled => {
           this.isToggled = isToggled;
@@ -47,4 +53,17 @@ export class ProfileActiveProjectsComponent {
       this.themeService.toggleRTLEnabledTheme();
   }
 
+  // Active Projects
+  initProjects() {
+    return this.projectService.getProjectsByUserIDAndStatus(this.userID ?? '', "Active").subscribe((data: AllProjects[]) => {
+        console.log("DATA: " + data);
+        this.initActiveProjects = data;
+        this.activeProjects.set(this.initActiveProjects);
+        this.initActiveProjectNames.map((activeProject: { projectName: any; }) => activeProject.projectName);
+        this.activeProjectNames.set(this.initActiveProjectNames);
+    });
+  }
+  ngOnInit() {
+    return this.initProjects() && console.log("ACTIVE PROJECTS: " + this.activeProjects() + "USER ID: " + this.userID);
+  }
 }

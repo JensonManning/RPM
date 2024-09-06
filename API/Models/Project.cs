@@ -1,8 +1,13 @@
+using static API.Models.ProjectStatusEnum;
+
 namespace API.Models
 {
     public class Project
     {
+        // Primary Key
         public int ProjectID { get; set; }
+
+        // Properties
         public string ProjectName { get; set; } = String.Empty;
         public string ProjectShortcode { get; set; } = String.Empty; 
         public string ProjectDescription { get; set; } = String.Empty;
@@ -10,6 +15,11 @@ namespace API.Models
         public string ProjectEndDate { get; set; } = String.Empty;
         public string ProjectStatus { get; set; } = String.Empty;
 
+        // Enums
+        public ProjectStatusEnum ProjectStatusEnum { get; set; }
+        
+        // Foreign Keys | 1 to Many
+        
         // Phases Link
         public List<ProjectPhase> ProjectPhase { get; set; } = new List<ProjectPhase>();
         // Tasks Link

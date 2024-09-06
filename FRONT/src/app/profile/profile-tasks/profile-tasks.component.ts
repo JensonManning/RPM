@@ -15,10 +15,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { ProjectsService } from '../../services/projects.service';
-import { ProjectTasks } from '../../models/projectTasks';
+import { ProjectTasks } from '../../models/tasks/projectTasks';
 import { AllProjects } from '../../models/allprojects';
 import { AsyncLocalStorage } from 'async_hooks';
-import { ProjectPhase } from '../../models/projectPhase';
+import { ProjectPhase } from '../../models/phases/projectPhase';
 
 @Component({
   selector: 'app-profile-tasks',

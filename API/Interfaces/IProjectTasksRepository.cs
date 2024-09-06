@@ -13,6 +13,10 @@ namespace API.Interfaces
         Task<ProjectTasks?> GetByIdAsync(int ProjectTasksID);
         Task<ProjectTasks> CreateAsync(ProjectTasks projectTasksModel); // Create
         Task<ProjectTasks?> UpdateAsync(int ProjectTasksID, ProjectTaskUpdateReqDto projectTaskDto); // Update
+        Task<ProjectTasks?> UpdateToCompleteAsync(int ProjectTasksID, ProjectTaskUpdateToCompleteDto projectTaskDto);
         Task<ProjectTasks?> DeleteAsync(int ProjectTasksID);
+
+        Task<IEnumerable<ProjectTasks>> GetActiveProjectTasksByAppUserIDAsync(string AppUserID, ProjectTaskStatusEnum projectTaskStatus);
+        Task<IEnumerable<ProjectTasks>> GetAllByStatusAndAppUserIDAsync(string AppUserID, string projectTaskStatus);
     }
 }

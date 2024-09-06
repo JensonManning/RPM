@@ -6,7 +6,8 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { tokenInterceptor } from './interceptor/token.interceptor';
+import { RpmService } from './services/rpm.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withComponentInputBinding()), provideClientHydration(), provideHttpClient(withInterceptors([tokenInterceptor])), provideAnimations()]
+  providers: [provideRouter(routes, withComponentInputBinding()), provideClientHydration(), provideHttpClient(withInterceptors([tokenInterceptor])), provideAnimations(), RpmService]
 };

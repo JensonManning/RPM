@@ -4,14 +4,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Project } from '../models/project';
-import { ProjectPhase } from '../models/projectPhase';
+import { ProjectPhase } from '../models/phases/projectPhase';
 import { AllProjects } from '../models/allprojects';
-import { ProjectTasks } from '../models/projectTasks';
+import { ProjectTasks } from '../models/tasks/projectTasks';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Users } from '../models/users';
-import { CreateUsers } from '../models/createUsers';
-import { AppUserDetail } from '../models/appUserDetail';
+import { Users } from '../models/appUser/users';
+import { CreateUsers } from '../models/appUser/createUsers';
+import { AppUserDetail } from '../models/appUser/appUserDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class ProjectsService {
   private apiUsersCreateURL = `${environment.apiURL}/account/register`
 
   constructor(private http: HttpClient) { 
-    }
+  }
 
     fetchProjectData() {
       return this.http.get(this.apiURL).pipe(
@@ -133,7 +133,7 @@ export class ProjectsService {
       return this.http.post<Project>(this.apiURL, project);
     }
     getProjectById(id: number): Observable<Project> {
-      return this.http.get<Project>(`${this.apiURL}/${id}`);
+      return this.http.get<Project>(`${this.apiURL}/ProjectID/${id}`);
     }
 
     getPhases(): Observable<ProjectPhase[]> {

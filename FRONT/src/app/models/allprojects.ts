@@ -1,6 +1,6 @@
-import { AppUserDetail } from './appUserDetail';
-import { ProjectPhase } from './projectPhase';
-import { ProjectTasks } from './projectTasks';
+import { AppUserDetail } from './appUser/appUserDetail';
+import { ProjectPhase } from './phases/projectPhase';
+import { ProjectTasks } from './tasks/projectTasks';
 import { ProjectTeam } from './projectTeam';
 export interface AllProjects {
     map(arg0: (project: { projectsName: any; }) => any): string[];

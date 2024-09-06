@@ -18,11 +18,11 @@ import { NgxEditorModule, Editor, Toolbar, Validators } from 'ngx-editor';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project';
-import { ProjectPhase } from '../../models/projectPhase';
-import { ProjectTasks } from '../../models/projectTasks';
+import { ProjectPhase } from '../../models/phases/projectPhase';
+import { ProjectTasks } from '../../models/tasks/projectTasks';
 import { DateTime } from "luxon";
-import { Users } from '../../models/users';
-import { AppUserDetail } from '../../models/appUserDetail';
+import { Users } from '../../models/appUser/users';
+import { AppUserDetail } from '../../models/appUser/appUserDetail';
 
 @Component({
   selector: 'app-create-project',
@@ -142,7 +142,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     },
     {
         projectTasksID: 0,
@@ -153,7 +154,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     },
     {
         projectTasksID: 0,
@@ -164,7 +166,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     },
     {
         projectTasksID: 0,
@@ -175,7 +178,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     },
     {
         projectTasksID: 0,
@@ -186,7 +190,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     },
     {
         projectTasksID: 0,
@@ -197,7 +202,8 @@ projectTasks : ProjectTasks[] = [
         projectTasksStatus: '',
         projectID: 0,
         projectPhaseID: 0,
-        projectPhase: []
+        projectPhase: [],
+        appUsers: []
     }
 ]
 // projectPhase ID

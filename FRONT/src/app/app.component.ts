@@ -10,7 +10,7 @@ import { CustomizerSettingsComponent } from './customizer-settings/customizer-se
 import { RouterOutlet, Router, NavigationCancel, NavigationEnd, RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from './customizer-settings/customizer-settings.service';
 import { ProfileDashboardComponent } from './profile/profile-dashboard/profile-dashboard.component';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/auth/auth.service';
 import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({

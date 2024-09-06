@@ -1,0 +1,100 @@
+<mat-card
+    class="rpm-card product-development-card mb-25 border-radius bg-white border-none rpm-block"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mb-0">
+                {{projectDetails().projectName}}
+            </h5>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="info bg-gradient border-radius">
+            <div class="rpm-md-flex align-items-center justify-content-between">
+                <div class="item rpm-flex align-items-center">
+                    <div class="icon text-center rounded-circle text-white position-relative">
+                        <i class="material-symbols-outlined">
+                            person
+                        </i>
+                    </div>
+                    <div>
+                        <span class="info-title rpm-block fw-medium text-white">
+                            Firm
+                        </span>
+                        <span class="rpm-block text-white">
+                            {{projectDetails().projectName}}
+                        </span>
+                    </div>
+                </div>
+                <div class="item rpm-flex align-items-center">
+                    <div class="icon text-center rounded-circle text-white position-relative">
+                        <i class="material-symbols-outlined">
+                            blur_short
+                        </i>
+                    </div>
+                    <div>
+                        <span class="info-title rpm-block fw-medium text-white">
+                            Shortcode
+                        </span>
+                        <span class="rpm-block text-white">
+                            {{projectDetails().projectName}}
+                        </span>
+                    </div>
+                </div>
+                <div class="item rpm-flex align-items-center">
+                    <div class="icon text-center rounded-circle text-white position-relative">
+                        <i class="material-symbols-outlined">
+                            schedule
+                        </i>
+                    </div>
+                    <div>
+                        <span class="info-title rpm-block fw-medium text-white">
+                            Duration
+                        </span>
+                        <span class="rpm-block text-white">
+                            Start Date : {{projectDetails().projectStartDate}} - End Date : {{projectDetails().projectEndDate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <mat-progress-bar mode="determinate" value="60"></mat-progress-bar>
+            <div class="rpm-flex align-items-center justify-content-between">
+                <span class="rpm-block text-white">
+                    Progress
+                </span>
+                <span class="rpm-block text-white">
+                    60%
+                </span>
+            </div>
+        </div>
+        <div class="rpm-flex align-items-center justify-content-between">
+            <span class="rpm-block text-body">
+                Project Started: {{projectDetails().projectStartDate}}
+            </span>
+            <span class="rpm-block text-body">
+                Project Deadline: {{projectDetails().projectEndDate}}
+            </span>
+        </div>
+        <span class="title rpm-block">
+            Project Details:
+        </span>
+        <p>
+            Commodo eu arcu vel tincidunt habitant risus nec. Integer sollicitudin aliquam risus massa eleifend vitae. Ornare maecenas purus at dictumst. Praesent ornare blandit urna mi porta dui id orci. Molestie nunc lorem velit pulvinar. Vulputate at ligula nisl adipiscing aenean sit.
+        </p>
+        <p>
+            Feugiat et eu in euismod suspendisse elementum. Ipsum pellentesque morbi ultricies mattis. Ut at amet faucibus bibendum. Velit posuere ornare orci ultrices porta. Sed vestibulum venenatis sed purus sagittis. Neque adipiscing quis faucibus eget amet.
+        </p>
+        <ul class="pl-0 mb-0 list-unstyled">
+            <li class="text-body position-relative">
+                Sapien magna dolor urna ultrices ultrices ultricies enim in.
+            </li>
+            <li class="text-body position-relative">
+                Dui massa ipsum viverra porttitor mi sed vestibulum.
+            </li>
+            <li class="text-body position-relative">
+                Vel duis ligula gravida aenean massa mi ullamcorper.
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>
