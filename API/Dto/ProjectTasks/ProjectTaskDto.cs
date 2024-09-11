@@ -21,9 +21,9 @@ namespace API.Dto.ProjectTasks
         public string ProjectTasksStartDate { get; set; } = String.Empty;
         public string ProjectTasksEndDate { get; set; } = String.Empty;
         public int? ProjectID { get; set; }
+        public string? ProjectName { get; set; } = String.Empty;
         public int? ProjectPhaseID { get; set; }
+        public string? ProjectPhaseName { get; set; } = String.Empty;
         public List <UserDetailDto> AppUsers { get; set; }
-
-        public ProjectTaskActions ProjectTaskActions { get; set; }
     }
 }

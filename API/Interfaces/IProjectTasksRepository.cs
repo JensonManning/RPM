@@ -18,5 +18,7 @@ namespace API.Interfaces
 
         Task<IEnumerable<ProjectTasks>> GetActiveProjectTasksByAppUserIDAsync(string AppUserID, ProjectTaskStatusEnum projectTaskStatus);
         Task<IEnumerable<ProjectTasks>> GetAllByStatusAndAppUserIDAsync(string AppUserID, string projectTaskStatus);
+
+        Task<ProjectTasks?> AddUserToProjectTaskAsync(int ProjectTasksID, string UserName);
     }
 }

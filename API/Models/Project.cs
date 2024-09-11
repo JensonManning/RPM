@@ -26,5 +26,11 @@ namespace API.Models
         public List<ProjectTasks> ProjectTasks { get; set; } = new List<ProjectTasks>();
         // User Link
         public List<AppUser> AppUsers { get; set; } = new List<AppUser>();
+        // Notebooks Link
+        public List<ProjectNotebooks> ProjectNotebooks { get; set; } = new List<ProjectNotebooks>();
+
+        public List<ProjectEvents> ProjectEvents { get; set; } = new List<ProjectEvents>();
+
+
     }
 }

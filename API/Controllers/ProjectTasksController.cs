@@ -98,11 +98,22 @@ namespace API.Controllers
         }
 
         // Update Task to Complete
-        // Update Task to Complete
         [HttpPut("complete/{ProjectTasksID}")]
         public async Task<IActionResult> UpdateToComplete([FromRoute] int ProjectTasksID, [FromBody] ProjectTaskUpdateToCompleteDto projectTaskDto)
         {
             var projectTasks = await _projectTasksRepo.UpdateToCompleteAsync(ProjectTasksID, projectTaskDto);
+            if (projectTasks == null)
+            {
+                return NotFound(new { message = "Project Tasks not found" });
+            }
+            return Ok(projectTasks);
+        }
+
+        // Add User to Project Task
+        [HttpPost("adduser/{ProjectTasksID}/{UserName}")]
+        public async Task<IActionResult> AddUserToProjectTask([FromRoute] int ProjectTasksID, [FromRoute] string UserName)
+        {
+            var projectTasks = await _projectTasksRepo.AddUserToProjectTaskAsync(ProjectTasksID, UserName);
             if (projectTasks == null)
             {
                 return NotFound(new { message = "Project Tasks not found" });

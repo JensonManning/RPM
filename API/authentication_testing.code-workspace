@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../ProjectManagement/references/rnpm-d-front"
+		},
+		{
+			"path": "C:/Users/jenso/Downloads/themeforest-IvhUhf51-hexadash-svelte-multipurpose-admin-dashboard-template/hexadash-angular/hexadash-angular"
 		}
 	],
 	"settings": {}

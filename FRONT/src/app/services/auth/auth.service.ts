@@ -6,6 +6,7 @@ import { AuthResponse } from './authresponse';
 import { HttpClient } from '@angular/common/http';
 import { Users } from '../../models/appUser/users';
 import { jwtDecode } from 'jwt-decode';
+import { AppUserDetail } from '../../models/appUser/appUserDetail';
 
 @Injectable({
   providedIn: 'root'

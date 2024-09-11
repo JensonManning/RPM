@@ -22,5 +22,8 @@ namespace API.Models
         // Project Link
         public int? ProjectID { get; set; }
         public Project? Project { get; set; }
+
+        public List<ProjectTasks> ProjectTasks { get; set; } = new List<ProjectTasks>();
+
     }
 }

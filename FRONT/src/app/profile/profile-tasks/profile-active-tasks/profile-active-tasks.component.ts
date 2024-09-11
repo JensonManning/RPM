@@ -1,12 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { NgIf } from '@angular/common';
-import { Component, Input, input, ViewChild } from '@angular/core';
+import { Component, Input, input, signal, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
@@ -20,11 +20,17 @@ import { AllProjects } from '../../../models/allprojects';
 import { AsyncLocalStorage } from 'async_hooks';
 import { ProjectPhase } from '../../../models/phases/projectPhase';
 import { MatPaginator } from '@angular/material/paginator';
+import { ProjectTasksService } from '../../../services/tasks/project-tasks.service';
+import { TasksService } from '../../../services/project/tasks.service';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-profile-active-tasks',
   standalone: true,
-  imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, MatTableModule, NgIf, MatCheckboxModule, MatTooltipModule, MatSelectModule, MatInputModule, MatDatepickerModule],
+  imports: [MatIconModule, MatExpansionModule ,MatAccordion ,MatCardModule, MatMenuModule, MatButtonModule, RouterLink, MatTableModule, NgIf, MatCheckboxModule, MatTooltipModule, MatSelectModule, MatInputModule, MatDatepickerModule],
   templateUrl: './profile-active-tasks.component.html',
   styleUrl: './profile-active-tasks.component.scss',
   providers: [
@@ -35,25 +41,21 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ProfileActiveTasksComponent {
 
-  @Input() set activeProjects(p: AllProjects[] | undefined) {
-    if (p) {
-        console.log(p);
-            this.dataSource = new MatTableDataSource<AllProjects>(p);
-            this.dataSource.paginator = this.paginator;
-    } else {
-        console.log('p is undefined');
-    }
-   }
+   initActiveUserTasks: ProjectTasks[] = [];
+   activeUserTasks = signal<ProjectTasks[]>(this.initActiveUserTasks);
 
 
-
+   @ViewChild('menuTrigger')
+    menuTrigger!: MatMenuTrigger;
    @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
-  displayedColumns: string[] = ['select', 'projectName', 'taskName', 'endDate',  'status'];
-  dataSource = new MatTableDataSource<AllProjects>();
-  selection = new SelectionModel<AllProjects>(true, []);
+  displayedColumns: string[] = ['select', 'projectName', 'taskName', 'endDate',  'status', 'phase', 'action'];
+  dataSource = new MatTableDataSource<ProjectTasks>();
+  selection = new SelectionModel<ProjectTasks>(true, []);
 
-  id = localStorage.getItem('appUserID')?.toString().replace('"', '').replace('"', ''); // user id
+  userID = localStorage.getItem('appUserID')?.toString().replace('"', '').replace('"', '') ?? '';
+
+
 
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -73,11 +75,11 @@ export class ProfileActiveTasksComponent {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: AllProjects): string {
+  checkboxLabel(row?: ProjectTasks): string {
       if (!row) {
           return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
       }
-      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.projectTasks[0].projectTasksID + 1}`;
+      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.projectTasksID + 1}`;
   }
 
   // Search Filter
@@ -87,7 +89,7 @@ export class ProfileActiveTasksComponent {
   }
 
   // Popup Trigger
-  classApplied = false;
+  classApplied = false ;
   toggleClass() {
       this.classApplied = !this.classApplied;
   }
@@ -96,15 +98,38 @@ export class ProfileActiveTasksComponent {
   isToggled = false;
 
   constructor(
-      public themeService: CustomizerSettingsService, public projectService: ProjectsService
-  ) {
-      this.themeService.isToggled$.subscribe(isToggled => {
-          this.isToggled = isToggled;
-      });
-  }
+      public themeService: CustomizerSettingsService, public projectTasksService: TasksService, public dialog: MatDialog
+  ) { // user id
+        this.themeService.isToggled$.subscribe(isToggled => {
+            this.isToggled = isToggled;
+        });
+        this.projectTasksService.getActiveProjectTasksByUserID(this.userID).subscribe((data) => {
+            this.initActiveUserTasks = data;
+            this.activeUserTasks.set(this.initActiveUserTasks);
+            this.dataSource = new MatTableDataSource<ProjectTasks>(this.activeUserTasks());
+            console.log("TASKS DATA : ", this.activeUserTasks());
+        });  
+    }
 
+    openDialog() {
+        const dialogRef = this.dialog.open(DialogFromMenuExampleDialog, {restoreFocus: false});
+    
+        // Manually restore focus to the menu trigger since the element that
+        // opens the dialog won't be in the DOM any more when the dialog closes.
+        dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
+    }
   // RTL Mode
   toggleRTLEnabledTheme() {
       this.themeService.toggleRTLEnabledTheme();
   }
+
 }
+
+
+@Component({
+    selector: 'profile-active-tasks-dialog',
+    templateUrl: './profile-active-tasks-dialog.html',
+    standalone: true,
+    imports: [MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+})
+export class DialogFromMenuExampleDialog {}

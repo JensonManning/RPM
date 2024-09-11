@@ -60,7 +60,7 @@
                             Task Name
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.projectTasks[0].projectTasksName}}
+                            {{element.projectTasksName}}
                         </td>
                     </ng-container>
 
@@ -70,7 +70,7 @@
                             End Date
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.projectTasks[0].projectTasksEndDate}}
+                            {{element.projectTasksEndDate}}
                         </td>
                     </ng-container>
                     
@@ -80,46 +80,73 @@
                             Status
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            <span class="rpm-badge in-progress rpm-inline-block" *ngIf="element.projectTasks[0].projectTasksStatus == 'In Progress'">
-                                {{element.projectTasks[0].projectTasksStatus}}
+                            <span class="rpm-badge in-progress rpm-inline-block" *ngIf="element.projectTasksStatus == 'In Progress'">
+                                {{element.projectTasksStatus}}
                             </span>
-                            <span class="rpm-badge pending rpm-inline-block" *ngIf="element.projectTasks[0].projectTasksStatus == 'Active'">
-                                {{element.projectTasks[0].projectTasksStatus}}
+                            <span class="rpm-badge pending rpm-inline-block" *ngIf="element.projectTasksStatus == 'Active'">
+                                {{element.projectTasksStatus}}
                             </span>
-                            <span class="rpm-badge completed rpm-inline-block" *ngIf="element.projectTasks[0].projectTasksStatus == 'Completed'">
-                                {{element.projectTasks[0].projectTasksStatus}}
+                            <span class="rpm-badge completed rpm-inline-block" *ngIf="element.projectTasksStatus == 'Completed'">
+                                {{element.projectTasksStatus}}
                             </span>
-                            <span class="rpm-badge not-started rpm-inline-block" *ngIf="element.projectTasks[0].projectTasksStatus == 'Created'">
-                                {{element.projectTasks[0].projectTasksStatus}}
+                            <span class="rpm-badge not-started rpm-inline-block" *ngIf="element.projectTasksStatus == 'Created'">
+                                {{element.projectTasksStatus}}
+                            </span>
+                        </td>
+                    </ng-container>
+                    
+                    <!-- Phase Column -->
+                    <ng-container matColumnDef="phase">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Phase
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="rpm-badge in-progress rpm-inline-block" *ngIf="element.projectPhase == 'Active'">
+                                {{element.projectPhase}}
+                            </span>
+                            <span class="rpm-badge pending rpm-inline-block" *ngIf="element.projectPhase == 'Upcoming'">
+                                {{element.projectPhase}}
+                            </span>
+                            <span class="rpm-badge completed rpm-inline-block" *ngIf="element.projectPhase == 'Completed'">
+                                {{element.projectPhase}}
+                            </span>
+                            <span class="rpm-badge not-started rpm-inline-block" *ngIf="element.projectPhase == 'Late'">
+                                {{element.projectPhase}}
                             </span>
                         </td>
                     </ng-container>
 
-                    <!-- Action Column 
+                    <!-- Action Column -->
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef>
                             Action
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            <div class="action-info">
-                                <button type="button" mat-button matTooltip="View" matTooltipPosition="above">
-                                    <i class="material-symbols-outlined">
-                                        {{element.action.view}}
-                                    </i>
-                                </button>
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above">
-                                    <i class="material-symbols-outlined">
-                                        {{element.action.edit}}
-                                    </i>
-                                </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above">
-                                    <i class="material-symbols-outlined">
-                                        {{element.action.delete}}
-                                    </i>
-                                </button>
+                            <div class="action-info">                            
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger>
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button type="button" mat-button matTooltip="View" matTooltipPosition="above">
+                                                <i class="material-symbols-outlined">
+                                                    visibility
+                                                </i>
+                                            </button>
+                                            <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above">
+                                                <i class="material-symbols-outlined">
+                                                    Edit
+                                                </i>
+                                            </button>
+                                            <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above">
+                                                <i class="material-symbols-outlined">
+                                                    Delete
+                                                </i>
+                                            </button>
+                                        </mat-menu>
+                                
                             </div>
                         </td>
-                    </ng-container>-->
+                    </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

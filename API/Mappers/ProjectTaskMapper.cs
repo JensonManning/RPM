@@ -20,9 +20,10 @@ namespace API.Mappers
                 ProjectTasksEndDate = projectTasksModel.ProjectTasksEndDate, 
                 ProjectTasksStatus = projectTasksModel.ProjectTasksStatus,
                 ProjectID = projectTasksModel.ProjectID,
+                ProjectName = projectTasksModel.ProjectName,
                 ProjectPhaseID = projectTasksModel.ProjectPhaseID,
+                ProjectPhaseName = projectTasksModel.ProjectPhaseName,
                 AppUsers = projectTasksModel.AppUsers.Select(c => c.ToUserDetailDto()).ToList(),
-                ProjectTaskActions = (Dto.ProjectTasks.ProjectTaskActions)projectTasksModel.ProjectTaskActions
 
             };
         }

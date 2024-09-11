@@ -9,6 +9,7 @@ namespace API.Repository
     public class ProjectTasksRepository : IProjectTasksRepository
     {
         private readonly AppDbContext _context;   
+        
 
         public ProjectTasksRepository(AppDbContext context)
         {
@@ -65,8 +66,22 @@ namespace API.Repository
         public async Task<IEnumerable<ProjectTasks>> GetActiveProjectTasksByAppUserIDAsync(string AppUserID, ProjectTaskStatusEnum projectTaskStatus)
         {
             return await _context.ProjectTasks
-            .Where(p => p.AppUsers.Any(a => a.Id == AppUserID) && p.ProjectTasksStatus == projectTaskStatus.ToString())
-            .ToListAsync();
+                .Join(_context.Project, pt => pt.ProjectID, p => p.ProjectID, (pt, p) => new { pt, p })
+                .Where(x => x.pt.AppUsers.Any(a => a.Id == AppUserID) && x.pt.ProjectTasksStatus == projectTaskStatus.ToString())
+                .Select(x => new ProjectTasks
+                {
+                    ProjectTasksID = x.pt.ProjectTasksID,
+                    ProjectTasksName = x.pt.ProjectTasksName,
+                    ProjectTasksDescription = x.pt.ProjectTasksDescription,
+                    ProjectTasksStartDate = x.pt.ProjectTasksStartDate,
+                    ProjectTasksEndDate = x.pt.ProjectTasksEndDate,
+                    ProjectTasksStatus = x.pt.ProjectTasksStatus,
+                    ProjectName = x.p.ProjectName,
+                    ProjectID = x.p.ProjectID,
+                    ProjectPhaseID = x.pt.ProjectPhaseID,
+                    ProjectPhaseName = x.pt.ProjectPhase.ProjectPhaseName
+                })
+                .ToListAsync();
         }
 
         public async Task<ProjectTasks?> UpdateToCompleteAsync(int ProjectTasksID, ProjectTaskUpdateToCompleteDto projectTaskDto)
@@ -86,6 +101,18 @@ namespace API.Repository
             return await _context.ProjectTasks
             .Where(p => p.AppUsers.Any(a => a.Id == AppUserID) && p.ProjectTasksStatus == projectTaskStatus.ToString())
             .ToListAsync();
+        }
+
+        public async Task<ProjectTasks?> AddUserToProjectTaskAsync(int ProjectTasksID, string UserName)
+        {
+            var projectTasks = await _context.ProjectTasks.FirstOrDefaultAsync(t => t.ProjectTasksID == ProjectTasksID);
+            if (projectTasks == null)
+            {
+                return null;
+            }
+            projectTasks.AppUsers.Add(await _context.AppUser.FirstOrDefaultAsync(u => u.UserName == UserName));
+            await _context.SaveChangesAsync();
+            return projectTasks;
         }
 
         

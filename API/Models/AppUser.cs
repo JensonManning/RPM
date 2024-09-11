@@ -15,5 +15,11 @@ namespace API.Models
         public List<Project> Projects { get; set; } = new List<Project>();
 
         public List<ProjectTasks> ProjectTasks { get; set; } = new List<ProjectTasks>();
+
+        public List<ProjectEvents> ProjectEvents { get; set; } = new List<ProjectEvents>();
+
+        public string RefreshToken { get; set; }
+
+        public DateTime RefreshTokenExpiryTime { get; set; }
     }
 }

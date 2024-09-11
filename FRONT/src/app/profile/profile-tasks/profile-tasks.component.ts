@@ -33,10 +33,6 @@ import { ProjectPhase } from '../../models/phases/projectPhase';
 ]   
 })
 export class ProfileTasksComponent {
-  projectTasks: AllProjects[] = [];
-  projects: AllProjects[] = [];
-  projectNames: string[] = [];
-  projectPhase: ProjectPhase[] = [];
   id = localStorage.getItem('appUserID')?.toString().replace('"', '').replace('"', ''); // user id
 
   // isToggled

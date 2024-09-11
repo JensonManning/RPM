@@ -21,5 +21,13 @@ namespace API.Data
         public DbSet<ProjectTasks> ProjectTasks { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ProjectTasks>().HasOne(x => x.Project).WithMany(x => x.ProjectTasks).HasForeignKey(x => x.ProjectID);
+
+        }
+
     }
 }

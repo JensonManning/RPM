@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 
 namespace API.Controllers
 {
@@ -129,14 +130,33 @@ namespace API.Controllers
             }
 
             var token = GenerateToken(user);
+            var refreshToken = GenerateRefreshToken();
+
+
+            if (int.TryParse(_configuration.GetSection("JWTSetting").GetSection("RefreshTokenValidityInDays").Value!, out var refreshTokenValidityInDays))
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
+            }
+
+            await _userManager.UpdateAsync(user);
 
             return Ok(new AuthResponseDto{
                 Token = token,
                 IsSuccess = true,
-                Message = user + " Login Success."
+                Message = user + " Login Success.",
+                RefreshToken = refreshToken
             });
         }
         
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
         // Generate Token
         private string GenerateToken(AppUser user)
         {

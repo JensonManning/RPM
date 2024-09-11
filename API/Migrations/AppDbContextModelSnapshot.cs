@@ -68,6 +68,13 @@ namespace API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -131,6 +138,110 @@ namespace API.Migrations
                     b.ToTable("Project");
                 });
 
+            modelBuilder.Entity("API.Models.ProjectEvents", b =>
+                {
+                    b.Property<int>("ProjectEventsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectEventsID"));
+
+                    b.Property<string>("ProjectEventsDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsEndDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsEndTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsStartDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsStartTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectEventsTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectEventsID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.ToTable("ProjectEvents");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectNotebookCategory", b =>
+                {
+                    b.Property<int>("ProjectNotebookCategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectNotebookCategoryID"));
+
+                    b.Property<string>("ProjectNotebookCategoryDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectNotebookCategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectNotebookCategoryID");
+
+                    b.ToTable("ProjectNotebookCategory");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectNotebooks", b =>
+                {
+                    b.Property<int>("ProjectNotebooksID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectNotebooksID"));
+
+                    b.Property<int>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectNotebookCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectNotebooksDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectNotebooksDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectNotebooksName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectNotebooksID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.HasIndex("ProjectNotebookCategoryID");
+
+                    b.ToTable("ProjectNotebooks");
+                });
+
             modelBuilder.Entity("API.Models.ProjectPhase", b =>
                 {
                     b.Property<int>("ProjectPhaseID")
@@ -183,13 +294,16 @@ namespace API.Migrations
                     b.Property<int?>("ProjectID")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProjectName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProjectPhaseID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectTaskActions")
-                        .HasColumnType("int");
+                    b.Property<string>("ProjectPhaseName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectTaskStatusEnum")
+                    b.Property<int>("ProjectTaskStatusEnumC")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectTasksDescription")
@@ -234,6 +348,21 @@ namespace API.Migrations
                     b.HasIndex("ProjectsProjectID");
 
                     b.ToTable("AppUserProject");
+                });
+
+            modelBuilder.Entity("AppUserProjectEvents", b =>
+                {
+                    b.Property<string>("AppUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProjectEventsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUsersId", "ProjectEventsID");
+
+                    b.HasIndex("ProjectEventsID");
+
+                    b.ToTable("AppUserProjectEvents");
                 });
 
             modelBuilder.Entity("AppUserProjectTasks", b =>
@@ -384,6 +513,36 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("API.Models.ProjectEvents", b =>
+                {
+                    b.HasOne("API.Models.Project", "Project")
+                        .WithMany("ProjectEvents")
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectNotebooks", b =>
+                {
+                    b.HasOne("API.Models.Project", "Project")
+                        .WithMany("ProjectNotebooks")
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.ProjectNotebookCategory", "ProjectNotebookCategory")
+                        .WithMany("ProjectNotebooks")
+                        .HasForeignKey("ProjectNotebookCategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectNotebookCategory");
+                });
+
             modelBuilder.Entity("API.Models.ProjectPhase", b =>
                 {
                     b.HasOne("API.Models.Project", "Project")
@@ -400,7 +559,7 @@ namespace API.Migrations
                         .HasForeignKey("ProjectID");
 
                     b.HasOne("API.Models.ProjectPhase", "ProjectPhase")
-                        .WithMany()
+                        .WithMany("ProjectTasks")
                         .HasForeignKey("ProjectPhaseID");
 
                     b.Navigation("Project");
@@ -419,6 +578,21 @@ namespace API.Migrations
                     b.HasOne("API.Models.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AppUserProjectEvents", b =>
+                {
+                    b.HasOne("API.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("AppUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.ProjectEvents", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectEventsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -491,8 +665,22 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.Project", b =>
                 {
+                    b.Navigation("ProjectEvents");
+
+                    b.Navigation("ProjectNotebooks");
+
                     b.Navigation("ProjectPhase");
 
+                    b.Navigation("ProjectTasks");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectNotebookCategory", b =>
+                {
+                    b.Navigation("ProjectNotebooks");
+                });
+
+            modelBuilder.Entity("API.Models.ProjectPhase", b =>
+                {
                     b.Navigation("ProjectTasks");
                 });
 #pragma warning restore 612, 618

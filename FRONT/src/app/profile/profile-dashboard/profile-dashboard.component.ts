@@ -7,11 +7,13 @@ import { RpmService } from '../../services/rpm.service';
 import { ProjectService } from '../../services/project/project.service';
 import { AllProjects } from '../../models/projects/projects';
 import { ProfileUpcomingTasksComponent } from "../profile-tasks/profile-upcoming-tasks/profile-upcoming-tasks.component";
+import { ProjectsTasksComponent } from "../../projects/projects-tasks/projects-tasks.component";
+import { ProfileProjectsComponent } from "../profile-projects/profile-projects.component";
 
 @Component({
   selector: 'app-profile-dashboard',
   standalone: true,
-  imports: [ProfileActiveProjectsComponent, ProfileUpcomingProjectsComponent, ProfileActiveTasksComponent, ProjectsAllActiveComponent, ProfileUpcomingTasksComponent],
+  imports: [ProfileActiveProjectsComponent, ProfileUpcomingProjectsComponent, ProfileActiveTasksComponent, ProjectsAllActiveComponent, ProfileUpcomingTasksComponent, ProjectsTasksComponent, ProfileProjectsComponent],
   templateUrl: './profile-dashboard.component.html',
   styleUrl: './profile-dashboard.component.scss'
 })
